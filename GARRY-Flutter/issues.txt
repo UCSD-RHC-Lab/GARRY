@@ -1,0 +1,16 @@
+fixed - UI is weird or runs into red error when starting a session
+fixed - leaderboard shows duplicate current session (because it was added to the database, retrieved, then added again in frontend)
+fixed - session doesn't really "end." It keeps going even after ending session
+fixed - graph has a weird gap in the beginning for both the threshold line and A2 data
+added - loading screen before data comes in
+fixed - inconsistent page colors for each page
+fixed - explicit feedback page percentage display is point display
+fixed - loading page not showing for all pages
+resolved - data now does not get sent back properly when disposed?
+
+need to decide - right now, the score is recorded when the session actually ends (instead of when the end session button is clicked)
+need to decide - what score do we put for explicit feedback? Should we show summary page?
+
+- file selection menu texts are invisible for binary feedback page
+- should have a continue button instead of a back button on summary page. Where should it lead to?
+- can't completely see graph. Add some padding at bottom of page.
