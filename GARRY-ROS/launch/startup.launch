@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="garry_ros" type="data_processing.py" name="dataProcessing" output="screen"/>
+  <node pkg="garry_ros" type="gesture_generation.py" name="gestureGeneration" output="screen"/>
+</launch>

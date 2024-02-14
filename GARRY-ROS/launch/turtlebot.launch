@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find turtlebot_dashboard)/launch/turtlebot_dashboard.launch"/>
+    <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
+</launch>
