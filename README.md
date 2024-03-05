@@ -205,17 +205,15 @@ and put it in your **assets** folder.
 
 ##### Application Structure Overview #####
 
-The `api` repository contains:
+The `api` directory contains:
 * `api.dart`: All API calls to the GARRY-Server in order to retrieve and update sessions and participant data.
 In the future, we plan to separate this into two files: `sessions_api.dart` and `participants_api.dart`.
 
 The `backend` repository contains:
 * `score_entry.dart`: A PODO (plain old Dart object) for each score entry on the scoreboard, containing the date (string) and the score (int).
-* `scoreboard.dart`: The self-containing, animated, scrollable widget that displays session scores in descending order.
 
 The `components` repository contains front end widgets:
-* `buttons.dart`: The TextButton widget and its style.
-* `confettiColors.dart`: The set colors of the confetti associated with regular and Binary confetti controllers, differing by color selection.
+* `confettiColors.dart`: The set colors of the confetti associated with regular and binary confetti controllers, differing by color selection.
 * `navigation.dart`: A Cupertino Navigation Bar and the nextPageButton Widget along with their styles
 * `progress_chart.dart`: The Progress Chart widget that creates the line chart during each session. Contains its height (double), dataPoints (FLSpot), colors (Color), and threshold Line (FLSpot)
 * `score_card.dart`: The ScoreCard class that contains its key, rank, date, score, newIndex, reportHeight and animations
@@ -244,6 +242,8 @@ The `utils` repository contains:
 * `ease_out_back_scaled.dart`: The EaseOutBackScaled class which sets the scale for transforms that are used on various pages
 
 The `widgets\feedback page` repository contains:
+* `scoreboard.dart`: The self-containing, animated, scrollable widget that displays session scores in descending order.
+* 
 * `base_feedback_page.dart`: An abstracted base version of every feedback page which can be extended to cater to each specific feedback type.
 * `feedback_page_component.dart`: Contains the different methods and widgets necessary to build the feedback page.
 * `file_selection_page.dart`: Contains the file selection page that contains the mock data we test with. 
