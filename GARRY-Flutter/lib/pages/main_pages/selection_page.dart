@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:myapp/components/navigation.dart';
-import 'package:myapp/components/selection_menu.dart';
+import 'package:garryapp/components/navigation.dart';
+import 'package:garryapp/components/selection_menu.dart';
 
-import 'package:myapp/ui/dimensions.dart';
-import 'package:myapp/pages/feedback_pages/binary_feedback_page.dart';
-import 'package:myapp/pages/feedback_pages/explicit_feedback_page.dart';
-import 'package:myapp/pages/feedback_pages/negative_feedback_page.dart';
-import 'package:myapp/pages/feedback_pages/positive_feedback_page.dart';
-import 'package:myapp/components/text_labels.dart';
+import 'package:garryapp/ui/dimensions.dart';
+import 'package:garryapp/pages/feedback_pages/binary_feedback_page.dart';
+import 'package:garryapp/pages/feedback_pages/explicit_feedback_page.dart';
+import 'package:garryapp/pages/feedback_pages/negative_feedback_page.dart';
+import 'package:garryapp/pages/feedback_pages/positive_feedback_page.dart';
+import 'package:garryapp/components/text_labels.dart';
 
 final List<String> menuTexts = ["Positive", "Negative", "Binary", "Explicit"];
 final String serverAddr = "ws://localhost:4000";

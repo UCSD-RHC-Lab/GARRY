@@ -1,8 +1,8 @@
-import 'package:myapp/api/api.dart' as api;
-import 'package:myapp/pages/main_pages/sessions_page.dart';
+import 'package:garryapp/api/api.dart' as api;
+import 'package:garryapp/pages/main_pages/sessions_page.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:myapp/ui/dimensions.dart';
-import 'package:myapp/providers/user_model.dart';
+import 'package:garryapp/ui/dimensions.dart';
+import 'package:garryapp/providers/user_model.dart';
 import 'package:provider/provider.dart';
 
 import 'components/navigation.dart';
@@ -12,16 +12,13 @@ import 'components/navigation.dart';
 /// The landing page of the application, an entry point that deals with user authentication.
 ///
 void main() => runApp(
-    ChangeNotifierProvider(create: ((context) => UserModel()), child: myApp()));
+    ChangeNotifierProvider(create: ((context) => UserModel()), child: GarryApp()));
 
-class myApp extends StatelessWidget {
+class GarryApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-      // theme: CupertinoThemeData(fontFamily: 'Roboto'),
-      home: DataFromAPI(
-          // DataFromAPI, PositiveFeedback, SelectionPage
-          ),
+      home: DataFromAPI(),
     );
   }
 }
@@ -165,7 +162,6 @@ class _DataFromAPIState extends State<DataFromAPI> {
                       child: Text('Submit'),
                       isDefaultAction: true,
                       onPressed: () {
-                        print('Should be making a new user now');
                         api.createNewUser(newUserController
                             .text); // Send the name to the database
                         Navigator.pop(context);

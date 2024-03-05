@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:myapp/pages/summary_pages/past_session_page.dart';
-import 'package:myapp/components/navigation.dart';
-import 'package:myapp/ui/dimensions.dart';
-import 'package:myapp/globals/global_states.dart';
+import 'package:garryapp/pages/summary_pages/past_session_page.dart';
+import 'package:garryapp/components/navigation.dart';
+import 'package:garryapp/ui/dimensions.dart';
+import 'package:garryapp/globals/global_states.dart';
 
-import 'package:myapp/pages/main_pages/selection_page.dart';
-import 'package:myapp/components/text_labels.dart';
+import 'package:garryapp/pages/main_pages/selection_page.dart';
+import 'package:garryapp/components/text_labels.dart';
 
 
 ///

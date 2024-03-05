@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-import 'package:myapp/globals/global_states.dart';
+import 'package:garryapp/globals/global_states.dart';
 
 ///
 /// Code that deals with database operations

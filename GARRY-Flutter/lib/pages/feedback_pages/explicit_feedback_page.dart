@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/base_feedback_page/base_feedback_page.dart';
-import 'package:myapp/pages/base_feedback_page/file_selection_page.dart';
+import 'package:garryapp/pages/base_feedback_page/base_feedback_page.dart';
+import 'package:garryapp/pages/base_feedback_page/file_selection_page.dart';
 
-import 'package:myapp/globals/global_states.dart';
+import 'package:garryapp/globals/global_states.dart';
 
 ///
 /// Explicit Feedback Session page:

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:myapp/widgets/scoreboard.dart';
-import 'package:myapp/components/navigation.dart';
-import 'package:myapp/globals/global_states.dart';
+import 'package:garryapp/widgets/scoreboard.dart';
+import 'package:garryapp/components/navigation.dart';
+import 'package:garryapp/globals/global_states.dart';
 
 ///
 /// Summary page:

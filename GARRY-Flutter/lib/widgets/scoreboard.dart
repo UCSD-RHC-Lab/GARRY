@@ -2,15 +2,15 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:myapp/globals/global_states.dart';
-import 'package:myapp/utils/ease_out_back_scaled.dart';
+import 'package:garryapp/globals/global_states.dart';
+import 'package:garryapp/utils/ease_out_back_scaled.dart';
 import 'package:intl/intl.dart';
 
-import 'package:myapp/backend/score_entry.dart';
+import 'package:garryapp/backend/score_entry.dart';
 import 'package:sorted_list/sorted_list.dart';
 
-import 'package:myapp/components/score_card.dart';
-import 'package:myapp/api/api.dart' as api;
+import 'package:garryapp/components/score_card.dart';
+import 'package:garryapp/api/api.dart' as api;
 
 
 /// Scoreboard Widget:

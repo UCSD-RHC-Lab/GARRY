@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import 'package:myapp/providers/user_model.dart';
+import 'package:garryapp/providers/user_model.dart';
 
 /// Text Labels:
 /// The custom widget for showing the participant's ID

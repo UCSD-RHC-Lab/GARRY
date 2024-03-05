@@ -1,12 +1,12 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/base_feedback_page/base_feedback_page.dart';
-import 'package:myapp/pages/base_feedback_page/feedback_page_components.dart';
-import 'package:myapp/pages/base_feedback_page/file_selection_page.dart';
+import 'package:garryapp/pages/base_feedback_page/base_feedback_page.dart';
+import 'package:garryapp/pages/base_feedback_page/feedback_page_components.dart';
+import 'package:garryapp/pages/base_feedback_page/file_selection_page.dart';
 
-import 'package:myapp/globals/global_states.dart';
-import 'package:myapp/components/confetti_colors.dart' as confettiColors;
+import 'package:garryapp/globals/global_states.dart';
+import 'package:garryapp/components/confetti_colors.dart' as confettiColors;
 
 ///
 /// Binary Feedback Session page:
