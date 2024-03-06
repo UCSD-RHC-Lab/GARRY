@@ -183,8 +183,8 @@ Our Flask server uses the port 5000.
 6. Run `startup.py` to both bring up the Turtlebot and to get it set up with the GARRY system.
 7. Note: if step 6 doesn't work, you may have an system that does not run our Python script correctly. The idea of this was to reduce the amount of manual setup work--nothing huge. You just have to do the following manually:
    - Run `roscore`.
-   - In another terminal, run `roslaunch garry_ros turtlebot.launch`
-   - In another terminal, run `roslaunch garry_ros startup.launch`
+   - In another terminal, run `roslaunch garry_ros turtlebot.launch` (make sure the ROS_HOSTNAME and ROS_MASTER_URI are correctly set in this terminal)
+   - In another terminal, run `roslaunch garry_ros startup.launch` (make sure the ROS_HOSTNAME and ROS_MASTER_URI are correctly set in this terminal)
    - If you're still having trouble, please follow the launch commands in the launch files respectively and manually run those commands.
 
 ### Flutter
