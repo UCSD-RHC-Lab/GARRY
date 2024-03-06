@@ -1,20 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:garryapp/pages/base_feedback_page/base_feedback_page.dart';
-import 'package:garryapp/pages/base_feedback_page/file_selection_page.dart';
 
 import 'package:garryapp/globals/global_states.dart';
 
 ///
-/// Negative Feedback Session page:
-/// This basically controls the asethtics and game mode changes that occur on the base feedback page when
-/// A Negative session is selected
+/// The specific feedback page for the negative feedback mode. Inherits BaseFeedbackPage.
+/// There is no confetti.
 ///
-class NegativeRoute extends FileSelectionPage {
-  final Color pageColor;
-  final String navBarText;
-  const NegativeRoute({Key key, this.pageColor, this.navBarText}) : super(key: key, pageColor: pageColor, navBarText: navBarText);
-}
-
 class NegativeFeedback extends BaseFeedbackPage {
   final String filePath;
   final Color pageColor;
@@ -30,7 +22,7 @@ class _NegativeFeedbackState extends BaseFeedbackPageState<NegativeFeedback> {
   @override
   void initState() {
     globalData['feedback_type'] = 'Negative';
-    testSocket(widget.selectedIndex);
+    socketConnect(widget.selectedIndex);
     super.initState();
   }
 
@@ -63,7 +55,6 @@ class _NegativeFeedbackState extends BaseFeedbackPageState<NegativeFeedback> {
   @override
   void dispose() {
     disposed = true; // Set flag when widget is disposed
-    //widget.channel.sink.close();
     super.dispose();
   }
 }

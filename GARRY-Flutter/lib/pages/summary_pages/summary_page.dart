@@ -1,28 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:garryapp/widgets/scoreboard.dart';
-import 'package:garryapp/components/navigation.dart';
+import 'package:garryapp/widgets/navigation.dart';
 import 'package:garryapp/globals/global_states.dart';
 
 ///
-/// Summary page:
 /// The page that hosts the leaderboard that is shown after a session is concluded.
 ///
-
-class SummaryRoute extends StatefulWidget {
+class SummaryPage extends StatefulWidget {
   final int sessionId;
   final String feedbackType;
-  const SummaryRoute({this.sessionId, this.feedbackType});
+  const SummaryPage({this.sessionId, this.feedbackType});
 
   @override
-  State<StatefulWidget> createState() => _SummaryRouteState();
+  State<StatefulWidget> createState() => _SummaryPageState();
 }
 
-class _SummaryRouteState extends State<SummaryRoute> {
+class _SummaryPageState extends State<SummaryPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: navBar('Summary page'),
-        // backgroundColor: Color.fromARGB(40, 232, 232, 237),
         child: Container(
             color: CupertinoColors.white,
             alignment: Alignment.center,

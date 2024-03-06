@@ -1,8 +1,11 @@
+///
+/// Widgets related to navigation.
+///
 import 'package:flutter/cupertino.dart';
 
 ///
-/// Navigation:
-/// Contains the Next Page button widget along with the navigation bar at the top of each page.
+/// A simple wrapper for the navigation bar at the top of each page. Displays some text
+/// in the middle of the nav bar.
 ///
 CupertinoNavigationBar navBar(String text) {
   return CupertinoNavigationBar(
@@ -11,6 +14,11 @@ CupertinoNavigationBar navBar(String text) {
   );
 }
 
+///
+/// A custom button that shows a right arrow to indicate going to next page. Displays some [text]
+/// of [fontSize] and [color] to the left of the arrow and accepts a function [onPressed] for
+/// what to do when pressed.
+///
 Widget nextPageButton(
     {String text, double fontSize, Function onPressed, Color color}) {
   return Container(

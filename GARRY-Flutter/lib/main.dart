@@ -5,39 +5,44 @@ import 'package:garryapp/ui/dimensions.dart';
 import 'package:garryapp/providers/user_model.dart';
 import 'package:provider/provider.dart';
 
-import 'components/navigation.dart';
+import 'widgets/navigation.dart';
 
 ///
-/// Main page:
 /// The landing page of the application, an entry point that deals with user authentication.
 ///
 void main() => runApp(
-    ChangeNotifierProvider(create: ((context) => UserModel()), child: GarryApp()));
+    ChangeNotifierProvider(create: ((context) => UserModel()), child: GarryApp())
+);
 
+///
+/// Main app
+///
 class GarryApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-      home: DataFromAPI(),
+      home: Login(),
     );
   }
 }
 
-class DataFromAPI extends StatefulWidget {
+///
+/// The widget that allows a user/researcher to enter their participant ID.
+/// If this ID does not already exist, it also prompts the user to enter
+/// their name, and they will then be registered in the database.
+/// 
+class Login extends StatefulWidget {
   @override
-  _DataFromAPIState createState() => _DataFromAPIState();
+  _LoginState createState() => _LoginState();
 }
 
-class _DataFromAPIState extends State<DataFromAPI> {
+class _LoginState extends State<Login> {
   ///
   /// Text Field Controllers that contain user input
   ///
-  final emailController = TextEditingController();
+  final pidController = TextEditingController();
   final newUserController = TextEditingController();
 
-  ///
-  /// Main build method
-  ///
   @override
   Widget build(BuildContext context) {
     double baseFontSize = Dimensions.computeSize(context, ComputeMode.width,
@@ -56,7 +61,7 @@ class _DataFromAPIState extends State<DataFromAPI> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    participantIDLabel(fontSize: headerFontSize),
+                    participantIDPrompt(fontSize: headerFontSize),
                     // Responsive spacer between label and text field
                     Flexible(
                         child: FractionallySizedBox(
@@ -75,11 +80,11 @@ class _DataFromAPIState extends State<DataFromAPI> {
                 text: 'next',
                 fontSize: baseFontSize * (1 / 1.4),
                 onPressed: () => {
-                      if (emailController.text.isNotEmpty)
+                      if (pidController.text.isNotEmpty)
                         {
                           // If the user has input a PID
-                          _checkUserExists(emailController.text),
-                          _sendDataToSelection(context)
+                          _checkUserExists(pidController.text),
+                          _nextPage(context)
                         }
                     },
                 color: CupertinoTheme.of(context).primaryColor),
@@ -93,7 +98,7 @@ class _DataFromAPIState extends State<DataFromAPI> {
   /// Return the text widget for labeling the text field ("Enter Participant
   /// ID").
   ///
-  Widget participantIDLabel({double fontSize = 52}) {
+  Widget participantIDPrompt({double fontSize = 52}) {
     return Container(
       alignment: Alignment.center,
       child: Text(
@@ -113,20 +118,22 @@ class _DataFromAPIState extends State<DataFromAPI> {
     return FractionallySizedBox(
         widthFactor: 0.7,
         child: CupertinoTextField(
-          controller: emailController,
+          controller: pidController,
           placeholder: 'ID',
           prefix: Container(
               padding: EdgeInsets.only(left: 15),
               child: Icon(CupertinoIcons.person)),
           suffix: CupertinoButton(
               child: Icon(CupertinoIcons.clear),
-              onPressed: () => emailController.clear()),
+              onPressed: () => pidController.clear()),
           textInputAction: TextInputAction.done,
         ));
   }
 
+  ///
   /// Button that pops up when the user enters a pid number not currently in the database
   /// Allows them to add a new name
+  ///
   Widget newUserButton() {
     return FractionallySizedBox(
         widthFactor: 0.7,
@@ -143,7 +150,9 @@ class _DataFromAPIState extends State<DataFromAPI> {
         ));
   }
 
+  /// 
   /// This section checks if the pid entered exists in the database, only accepts numerical input
+  ///
   Future<void> _checkUserExists(String pid) async {
     var userCheck = await api.checkUserExists(pid);
     if (userCheck == false) {
@@ -180,8 +189,12 @@ class _DataFromAPIState extends State<DataFromAPI> {
     }
   }
 
-  void _sendDataToSelection(BuildContext context) {
-    String textToSend = emailController.text;
+  ///
+  /// Moves the user to the next page, which is the [SessionsPage] that allows
+  /// them to choose to view past sessions or to start a new session.
+  ///
+  void _nextPage(BuildContext context) {
+    String textToSend = pidController.text;
     Provider.of<UserModel>(context, listen: false)
         .setPid(int.parse(textToSend));
 

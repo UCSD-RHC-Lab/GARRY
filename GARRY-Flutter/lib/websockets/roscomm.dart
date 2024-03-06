@@ -1,5 +1,8 @@
 import 'package:roslibdart/roslibdart.dart';
 
+///
+/// A wrapper class for publishing data to ROS topics.
+///
 class RosPublisher {
   Ros ros;
   Topic topic;

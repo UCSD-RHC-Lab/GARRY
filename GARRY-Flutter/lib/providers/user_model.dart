@@ -1,6 +1,7 @@
 ///
-/// User model page:
-/// TODO: Summarize
+/// User provider. Part of the effort to refactor from global data to use the
+/// provider pattern to store global app data. Includes participant ID and their
+/// name.
 ///
 import 'package:flutter/cupertino.dart';
 

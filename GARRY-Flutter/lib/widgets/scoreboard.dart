@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:garryapp/globals/global_states.dart';
-import 'package:garryapp/utils/ease_out_back_scaled.dart';
+import 'package:garryapp/anim/ease_out_back_scaled.dart';
 import 'package:intl/intl.dart';
 
 import 'package:garryapp/backend/score_entry.dart';
 import 'package:sorted_list/sorted_list.dart';
 
-import 'package:garryapp/components/score_card.dart';
+import 'package:garryapp/widgets/score_card.dart';
 import 'package:garryapp/api/api.dart' as api;
 
 

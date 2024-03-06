@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 ///
 /// The SelectionMenu class is a Column widget that groups buttons together but
-/// will only highlight the selected one. It must be a StatefulWidget because it
-/// keeps track of which option is currently being selected, and builds (and
-/// highlights) accordingly.
+/// will only highlight the selected one (like a group of radio buttons). It 
+/// must be a StatefulWidget because it keeps track of which option is currently
+/// being selected, and builds and highlights accordingly.
 ///
 class SelectionMenu extends StatefulWidget {
   final List<String> texts;
@@ -48,7 +48,10 @@ class _SelectionMenu extends State<SelectionMenu> {
 }
 
 ///
-/// Selection menu option class
+/// Represents an option in the selection menu. If an option is unselected, 
+/// it appears as black text with a transparent background. If an option is
+/// selected, it appears as white text with a light blue, capsule-shaped
+/// background.
 ///
 class SelectionMenuOption extends StatelessWidget {
   final double fontSize;

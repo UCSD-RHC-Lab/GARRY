@@ -1,3 +1,6 @@
+///
+/// Contains the widgets that control the animation/logic on the feedback page.
+/// 
 import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -6,13 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
-///
-/// Feedback Page Components Page:
-/// Contains the methods that control the animation/logic behind the widgets on the feedback page.
-
 
 ///
-/// Defines the method for rendering the progress bar/silver on the thermometer
+/// Renders the progress bar/silver on the thermometer.
 ///
 Widget progressBar({double thermSize = 60, double percent = 0.0, Color color}) {
   return Container(
@@ -126,8 +125,11 @@ Widget textFeedback({double padding = 30, double fontSize = 19, String status = 
 /// The method that renders the points feedback on the side of the screen.
 ///
 Widget pointsFeedback({double fontSize = 120, bool showPointsCue, int pointsGainCount}) {
+  // no need for negative; negative numbers already have a negative sign;
+  // positive numbers don't have a positive sign
+  String pointChangeSign = pointsGainCount > 0 ? "+" : ""; 
+
   return Container(
-    // color: Colors.brown,
       alignment: Alignment.topCenter,
       child: DefaultTextStyle(
           style: TextStyle(
@@ -143,17 +145,13 @@ Widget pointsFeedback({double fontSize = 120, bool showPointsCue, int pointsGain
               totalRepeatCount: 1,
               animatedTexts: [
                 RotateAnimatedText(
-                    "+" +
+                    pointChangeSign +
                         (pointsGainCount)
                             .toString(), // The message that displays based on how good their doing
                     transitionHeight: fontSize * 2,
                     textAlign: TextAlign.center)
               ])
               : SizedBox.shrink()));
-}
-
-String getScoreChangeSign(int pointsGainCount) {
-  return pointsGainCount >= 0 ? "+" : "";
 }
 
 ///

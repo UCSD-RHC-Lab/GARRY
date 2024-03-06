@@ -1,22 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:garryapp/pages/base_feedback_page/base_feedback_page.dart';
-import 'package:garryapp/pages/base_feedback_page/file_selection_page.dart';
 
 import 'package:garryapp/globals/global_states.dart';
 
 ///
-/// Explicit Feedback Session page:
-/// This basically controls the asethtics and game mode changes that occur on the base feedback page when
-/// A Explicit session is selected. There are no messages or confetti.
+/// The specific feedback page for the explicit feedback mode. Inherits BaseFeedbackPage. There
+/// are no messages (text feedback) or confetti.
 ///
-class ExplicitRoute extends FileSelectionPage {
-  final String feedbackType;
-  final Color pageColor;
-  final String navBarText;
-  const ExplicitRoute({Key key, this.feedbackType, this.pageColor, this.navBarText}) : super(key: key, pageColor: pageColor, navBarText: navBarText);
-}
-
 class ExplicitFeedback extends BaseFeedbackPage {
   final String filePath;
   final Color pageColor;
@@ -32,7 +23,7 @@ class _ExplicitFeedbackState extends BaseFeedbackPageState<ExplicitFeedback> {
     globalData['feedback_type'] = 'Explicit';
 
     setState(() {
-      testSocket(widget.selectedIndex);
+      socketConnect(widget.selectedIndex);
     });
     super.initState();
   }

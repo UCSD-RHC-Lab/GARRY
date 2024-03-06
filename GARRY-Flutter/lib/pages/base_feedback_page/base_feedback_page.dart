@@ -6,22 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:garryapp/pages/summary_pages/summary_page.dart';
-import 'package:garryapp/components/progress_chart.dart';
+import 'package:garryapp/widgets/progress_chart.dart';
 import 'package:garryapp/globals/global_states.dart';
 import 'package:garryapp/constants/strings.dart';
 import 'package:garryapp/api/api.dart' as api;
 import 'package:garryapp/globals/global_states.dart' as globals;
 import 'package:garryapp/ui/dimensions.dart';
 import 'package:garryapp/websockets/roscomm.dart';
-import 'package:garryapp/pages/base_feedback_page/feedback_page_components.dart';
+import 'package:garryapp/pages/base_feedback_page/feedback_page_widgets.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart';
 
 ///
-/// Base Feedback Session page:
-/// This is where the session is run, contains the widgets that display user data during a session and the score at the top right.
+/// Defines the base feedback page that other feedback pages will inherit. This is displayed when
+/// a session is run. It displays user progress in a graph, the feedback with a thermometer,
+/// the score, and an animated score change count (e.g., +41, -5).
 ///
-
 class BaseFeedbackPage extends StatefulWidget {
   final String filePath;
   final Color pageColor;
@@ -33,8 +33,11 @@ class BaseFeedbackPage extends StatefulWidget {
   BaseFeedbackPageState createState() => BaseFeedbackPageState();
 }
 
+///
+/// Stores the states of the base feedback page.
+///
 class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {  
-  /* --- dimensions --- */
+  // --- dimensions ---
   double coinUIWidth;
   double pointsFontSize;
   double endSessionButtonWidth;
@@ -43,22 +46,22 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
   double textFeedbackPadding;
   double textFeedbackSize;
 
-  /* --- websockets --- */
+  // --- websockets --- 
   WebSocketChannel channel;
   RosPublisher rosChannel;
 
-  /* --- points/coins --- */
+  // --- points/coins --- 
   int points = 0;
   int lastPoint = 0;
   int pointsGainCount = 0;
   bool showPointsCue = false;
-  DateTime lastCheckedTime = DateTime.now();
+  DateTime lastShownTime = DateTime.now();
 
-  /* --- graph --- */
+  // --- graph --- 
   List<FlSpot> matlabData = [];
   List<FlSpot> threshline = [];
 
-  /* --- general page states --- */
+  // --- general page states --- 
   bool disposed = false;
   bool hasSessionEnded = false;
   bool isLoading = true;
@@ -66,22 +69,19 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
   double goalVal = 0.0; // Start at zero to avoid null errors
   double liquidPercent = 0.0;
 
-  String status = "";
+  String status = ""; // text feedback
 
   Animation<Color> valueColor;  
   Stopwatch stopwatch = Stopwatch();
 
-  /* --- test/mock data related --- */
-  var pathToA2 = 'Dummy/Path'; // path variable for the data
-
-  /* --- UI svg files --- */
+  // --- UI svg files --- 
   final Widget thermBg = SvgPicture.asset(assetPath + 'therm-bg.svg',
       semanticsLabel: 'Thermometer');
   final Widget thermSmiley = SvgPicture.asset(
     assetPath + 'therm-smiley-sized.svg',
     semanticsLabel: 'ThermSmiley',
   );
-  //inital position of the threshold line on the thermometer
+  // Initial position of the threshold line on the thermometer
   final Widget thermPercentLine1 = SvgPicture.asset(
       assetPath + 'therm-percent-lines-sized.svg',
       semanticsLabel: 'ThermPercentLines'
@@ -92,20 +92,27 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
     semanticsLabel: 'CoinUI',
   );
 
+  ///
+  /// Here, we don't need to define the build method but need to declare it.
+  /// The child page widget will override it.
+  ///
   @override
   Widget build(BuildContext context) {
 
   }
 
+  ///
+  /// Gets the number of points the user currently has.
+  ///
   int getPointsCb() {
     return points;
   }
 
-   ///
+  ///
   /// Set the dimmensions of the page
   ///
-
   void setDimensions() {
+    // compute by width
     coinUIWidth = Dimensions.computeSize(context, ComputeMode.width,
       Pages.feedbackPage, FeedbackPageComponent.coinUIWidth);
     pointsFontSize = Dimensions.computeSize(
@@ -139,10 +146,9 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
       FeedbackPageComponent.textFeedbackSize);
   }
 
-   ///
-  /// Loading page that appears before streamed data is recieved
   ///
-
+  /// Loading page that appears before streamed data is received.
+  ///
   Widget loadingPage() {
     return 
       Scaffold(
@@ -171,8 +177,15 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
       );
   }
 
- ///
-  /// Main build method
+  ///
+  /// The main widget container used in all feedback pages. Includes (from top to bottom):
+  /// 1. Spacer
+  /// 2. Main feedback interface
+  ///   2.1. Left column that holds the end session button
+  ///   2.2. Middle column that holds the thermometer
+  ///   2.3. Right column that holds the points/coin UI
+  /// 3. Text feedback
+  /// 4. Progress/history graph
   ///
   List<Widget> mainBody() {
     return [
@@ -212,10 +225,9 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
     ];
   }
   
-   ///
-  /// Stop button that ends the session
   ///
-
+  /// The column that holds the stop button to end the session.
+  ///
   Widget endSessionColumn({double endSessionButtonWidth, dynamic onclick}) {
     return
       Flexible(
@@ -232,6 +244,9 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
               )));
   }
 
+  ///
+  /// The column that holds the thermometer widget.
+  /// 
   Widget thermometerColumn({double goalVal, double thermSize, double liquidPercent}) {
     return
       Flexible(
@@ -255,6 +270,9 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
           ));
   }
 
+  ///
+  /// The column that holds the number of points/percentage the user has/reaches.
+  ///
   Widget coinUIColumn({
     double coinUIWidth,
     double pointsFontSize,
@@ -285,6 +303,9 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
         ]));
   }
 
+  ///
+  /// The graph widget at the bottom of the feedback page.
+  ///
   Widget graph({List<FlSpot> matlabData, List<FlSpot> threshline}) {
     return
       Flexible(
@@ -300,8 +321,7 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
   ///
   /// Connects to the necessary websockets
   ///
-
-  void testSocket(var selectedIndex) async {
+  void socketConnect(var selectedIndex) async {
     final wsUrl = Uri.parse(globals.networkConfigs["websocketAddr"]);
     channel = WebSocketChannel.connect(wsUrl);
     rosChannel = RosPublisher(globals.networkConfigs["rosWebSocketAddr"], 'garry/feedback_type', 'std_msgs/String');
@@ -356,9 +376,11 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
         if (a2Val.isNaN) {
           a2Val = 0.0;
         }
+
         // Adding to the arrays
         matlabData.add(FlSpot(matlabData.length.toDouble(), a2Val/goalVal * 100.0));
         threshline.add(FlSpot(threshline.length.toDouble(), 100));
+
         // update the liquid and thermometer
         if (!disposed) { 
           setState(() {
@@ -382,10 +404,9 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
     });
   }
 
- ///
- /// Ends the session and sends user to the leaderboard screen
- ///
-  
+  ///
+  /// Ends the session and sends user to the [Scoreboard].
+  ///  
   void endSessionCallback({Stopwatch stopwatch, dynamic globalData, dynamic channel}) {
     showCupertinoDialog(
       context: context,
@@ -408,17 +429,17 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
 
                 final response = await api.addSession(globalData);
                 int sessionId = jsonDecode(response.body)['data']['session_id'];
-                print('The session has ended now with this data sent: $globalData');
+                
                 setState(() {
                   hasSessionEnded = true;
                 });
-                // Sends user to the right Leaderboard page based on their session ID
+                // Sends user to the right Scoreboard page based on their session ID
                 Navigator.pop(context);
                 Navigator.push(
                     context,
                     CupertinoPageRoute(
                         builder: (context) =>
-                            SummaryRoute(sessionId: sessionId, feedbackType: globalData['feedback_type'])));
+                            SummaryPage(sessionId: sessionId, feedbackType: globalData['feedback_type'])));
               }),
           CupertinoDialogAction(
             child: Text(
@@ -432,21 +453,29 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
     ));
   }
 
+  ///
+  /// Returns the number of seconds since the points cue was last shown.
+  ///
+  int secondsSinceLastShown() {
+    return lastShownTime.difference(DateTime.now()).inSeconds.abs();
+  }
   
   ///
-  /// Used to show the points cue (e.g., +4)
+  /// Returns whether the points cue for gained/lost should show (e.g., +4, -5)
+  /// on a time interval basis.
   ///
   void checkPointsChange() {
-    if (!showPointsCue &&
-        lastCheckedTime.difference(DateTime.now()).inSeconds.abs() >= 3 &&
-        points - lastPoint > 0) {
+    // if it has been more than 3 seconds since last shown, and we haven't shown
+    // any point cues, and user's points has changed, then show
+    if (!showPointsCue && secondsSinceLastShown() >= 3 && (points - lastPoint).abs() > 0) {
       showPointsCue = true;
       pointsGainCount = points - lastPoint;
       lastPoint = points;
-      lastCheckedTime = DateTime.now();
+      lastShownTime = DateTime.now();
     }
-    if (showPointsCue &&
-        lastCheckedTime.difference(DateTime.now()).inSeconds.abs() >= 2) {
+
+    // after showing points cue for 2 seconds, we can safely wait for it to show again
+    if (showPointsCue && secondsSinceLastShown() >= 2) {
       showPointsCue = false;
     }
   }

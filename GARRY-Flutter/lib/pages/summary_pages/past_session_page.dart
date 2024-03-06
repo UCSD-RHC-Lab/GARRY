@@ -1,14 +1,12 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:garryapp/globals/global_states.dart';
-import 'package:http/http.dart' as http;
-import 'package:garryapp/components/navigation.dart';
+import 'package:garryapp/widgets/navigation.dart';
+import 'package:garryapp/api/api.dart' as api;
 
 ///
-/// Past Session Page:
-/// Allows users or clinicians to view previous data generated during the sessions separated by session type 
-/// and presented on cards.
+/// Allows users or clinicians to view previous data generated during the sessions
+/// separated by session type and presented on cards.
 ///
 class PastSessionPage extends StatefulWidget {
   final int participantId;
@@ -30,61 +28,54 @@ class _PastSessionPageState extends State<PastSessionPage> {
 
   var buttonBackground = Colors.grey[600];
 
-  void _colorCallback() {
-    setState(() {
-      buttonBackground = Color(0xFF246CFF);
-    });
-  }
   List<CardData> cards = [];
 
-  // Creates cards which include important information about each session in the database with 
-  //scores and dates of the session presented when their corresponding session type is clicked
-
+  ///
+  /// Creates cards which include important information about each session in the database with 
+  /// scores and dates of the session presented when their corresponding session type is clicked
+  /// 
   Future<void> fetchRecentValues(String feedbackType) async {
     // Fetch the recent values based on the provided PID
-    var participant_id = globalData['participant_id'];
-    // var feedback_type = 'Positive'; //globalData['feedback_type'];
-    // print('Now to get the sessions for User $participant_id with feedback: $feedbackType');
-    final response = await http.get(
-      Uri.parse('http://127.0.0.1:5000/sessions/$participant_id/$feedbackType'),
-    );
-    // print('http://127.0.0.1:5000/sessions/$participant_id/$feedbackType');
+    var participantId = globalData['participant_id'];
 
-    if (response.statusCode == 200) {
-      // Get the data from the database (DB)
-      final jsonData = json.decode(response.body);
-      sessionData = jsonData['data'];
+    sessionData = await api.getSessions(participantId, feedbackType);
 
-      setState(() {
-        cards = List.generate(sessionData.length, (index) {
-          var current = sessionData[index];
-          // year = index-2, month = index-3, day = index-4, score = index-7
-          if (current[2] == null) { // if there is no date present in the DB entry
-            print('Not a valid date');
-            if (current[7] == null) {
-              print('Or a valid score');
-            }
-            current[2] = 2023; current[3] = 8; current[4] = 15; // dummy date, can be changed
-            var date = '${current[3]}/${current[4]}/${current[2]}';
-            return CardData(
-            id: index + 1,
-            date: date,
-            score: current[7] != null ? current[7]: 0.0, // dummy score if none is provided
-          );
-          }
-          var date = '${current[3]}/${current[4]}/${current[2]}';
-          return CardData(
-            id: index + 1,
-            date: date,
-            score: current[7] != null ? current[7]: 0.0,
-          );
-        });
-      });
-      
-    } else {
-      // Handle error
-      print('Failed to fetch recent values');
+    setState(() {
+      cards = getCardDataListFromSessionData(sessionData);
+    });
+  }
+
+  ///
+  /// A helper method to get the list of CardData from the returned session data from the
+  /// API call.
+  ///
+  List<CardData> getCardDataListFromSessionData(List<dynamic> data) {
+    List<CardData> sessionCards = [];
+
+    for (int i = 0; i < sessionData.length; i++) {
+      var session = sessionData[i];
+      var year = session[2];
+      var month = session[3];
+      var day = session[4];
+      var score = 0.0;
+      var date = 'unrecorded';
+
+      if (year != null) {
+        date = '$month/$day/$year';     // set date
+      }
+
+      if (session[7] != null) {
+        score = session[7];             // set score
+      }
+
+      sessionCards.add(CardData(        // add CardData to sessionCards
+        id: i + 1,
+        date: date,
+        score: score
+      ));
     }
+
+    return sessionCards;
   }
 
 
@@ -96,7 +87,7 @@ class _PastSessionPageState extends State<PastSessionPage> {
         child: ListView(
           children: <Widget>[
             // Top bar with feedback types
-            HorizontalList(
+            HorizontalChipList(
               selectedIndex: _selectedButtonIndex,
               buttonLabels: buttonLabels,
               onPressed: (index) {
@@ -114,9 +105,6 @@ class _PastSessionPageState extends State<PastSessionPage> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    // Get the session data for the tapped card
-                    var sessionDataForCard = sessionData[index];
-
                     // Make the data a map now
                     sessionDetailsMap = {
                       'Session ID': sessionData[index][0],
@@ -153,7 +141,6 @@ class _PastSessionPageState extends State<PastSessionPage> {
                 );
               },
               ),
-            // TempCard(),
           ],
         ),
       ),
@@ -163,7 +150,9 @@ class _PastSessionPageState extends State<PastSessionPage> {
   
 }
 
-// The card tiles instances that are displayed when a session type is clicked
+/// 
+/// The card tiles instances that are displayed when a session type is clicked
+/// 
 class CardData{
   final int id;
   final String date;
@@ -172,13 +161,15 @@ class CardData{
   CardData({this.id, this.date, this.score});
 }
 
-
-class HorizontalList extends StatelessWidget {
+///
+/// A horizontal chip radio button list
+///
+class HorizontalChipList extends StatelessWidget {
   final int selectedIndex;
   final List<String> buttonLabels;
   final Function(int) onPressed;
 
-  HorizontalList({this.selectedIndex, this.buttonLabels, this.onPressed});
+  HorizontalChipList({this.selectedIndex, this.buttonLabels, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,8 @@
 import 'package:flutter/animation.dart';
 
 ///
-/// Ease Out Scale page:
-/// TODO: Summarize
+/// A cubic animation curve for highlighting the just-completed session
+/// on the [Scoreboard].
 ///
 class EaseOutBackScaled extends Curve {
   final double scale;

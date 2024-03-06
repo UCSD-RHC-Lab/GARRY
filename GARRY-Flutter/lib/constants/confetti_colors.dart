@@ -1,10 +1,9 @@
+///
+/// Contains the color constants for the confetti pieces that are displayed in certain game modes.
+///
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-///
-/// Confetti Colors:
-/// Contains the color options for the confetti pieces that are displayed in certain game modes.
-///
 List<Color> confetti = [
   CupertinoColors.systemRed,
   CupertinoColors.systemGreen,

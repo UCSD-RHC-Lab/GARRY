@@ -1,5 +1,4 @@
 ///
-/// Strings page:
-/// Defines the path to the image assets used in the app.
+/// Defines any string constants. More to be added.
 ///
 final String assetPath = 'assets/images/';

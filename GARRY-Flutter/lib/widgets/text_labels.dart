@@ -1,10 +1,15 @@
+///
+/// Contains any custom text labels.
+///
+
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import 'package:garryapp/providers/user_model.dart';
 
-/// Text Labels:
-/// The custom widget for showing the participant's ID
+/// 
+/// Custom widget for showing the participant's ID ([pid]), typically at the top of the
+/// screen, left aligned on the navigation bar.
 ///
 Widget participantIDLabel({String pid, double fontSize=25}) {
   return Container(

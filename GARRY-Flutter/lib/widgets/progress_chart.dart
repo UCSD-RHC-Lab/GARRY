@@ -2,8 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 
 ///
-/// Progress Chart Widget:
-/// Contains the Line graph widget used to show users thier progress throughout a session 
+/// The line graph widget used to show users their progress throughout a session 
 /// relative to the goal value.
 ///
 class ProgressChart extends StatelessWidget {
@@ -21,9 +20,15 @@ class ProgressChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Width of the background takes up 90% of the screen space at all times
     double screenWidth = MediaQuery.of(context).size.width;
-    double containerWidth = 0.90 * screenWidth; // Width of the background takes up 85% of the screen space at all times
-    double largestY = dataPoints.reduce((value, element) => value.y > element.y ? value : element).y; //determines what the largest datapoint is in the list as it gets streamed in
+    double containerWidth = 0.90 * screenWidth;
+
+    // determines what the largest data point (in terms of y) is in the list as it gets streamed in
+    double largestY = dataPoints.reduce(
+      (value, element) => value.y > element.y ? value : element
+    ).y;
+
     return Container(
       height: height,
       width: containerWidth,

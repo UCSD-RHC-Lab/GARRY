@@ -1,19 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:garryapp/pages/summary_pages/past_session_page.dart';
-import 'package:garryapp/components/navigation.dart';
+import 'package:garryapp/widgets/navigation.dart';
 import 'package:garryapp/ui/dimensions.dart';
 import 'package:garryapp/globals/global_states.dart';
 
-import 'package:garryapp/pages/main_pages/selection_page.dart';
-import 'package:garryapp/components/text_labels.dart';
+import 'package:garryapp/pages/main_pages/feedback_selection_page.dart';
+import 'package:garryapp/widgets/text_labels.dart';
 
 
 ///
-/// Session Selection page:
-/// Page that allows users to create a new session or view previous session data
+/// The page that allows users to 1) create a new session or 2) view previous session data
 ///
 class SessionsPage extends StatefulWidget {
-  // receive data from main as a parameter
   SessionsPage({Key key}) : super(key: key);
 
   @override
@@ -75,7 +73,7 @@ class _SessionsPageState extends State<SessionsPage> {
                 // moves you to the next page
                 context,
                 CupertinoPageRoute(
-                    builder: (context) => SelectionPage()),
+                    builder: (context) => FeedbackSelectionPage()),
               );
             },
             child: Text(

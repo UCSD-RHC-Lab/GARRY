@@ -1,23 +1,13 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:garryapp/pages/base_feedback_page/base_feedback_page.dart';
-import 'package:garryapp/pages/base_feedback_page/feedback_page_components.dart';
+import 'package:garryapp/pages/base_feedback_page/feedback_page_widgets.dart';
 import 'package:garryapp/globals/global_states.dart';
-import 'package:garryapp/components/confetti_colors.dart' as confettiColors;
-
-import 'package:garryapp/pages/base_feedback_page/file_selection_page.dart';
+import 'package:garryapp/constants/confetti_colors.dart' as confettiColors;
 
 ///
-/// Positive Feedback Session page:
-/// This basically controls the asethtics and game mode changes that occur on the base feedback page when
-/// A Positive session is selected
+/// The specific feedback page for the positive feedback mode. Inherits BaseFeedbackPage.
 ///
-class PositiveRoute extends FileSelectionPage {
-  final Color pageColor;
-  final String navBarText;
-  const PositiveRoute({Key key, this.pageColor, this.navBarText}) : super(key: key, pageColor: pageColor, navBarText: navBarText);
-}
-
 class PositiveFeedback extends BaseFeedbackPage {
   final String filePath; // chosen file from the options list
   final Color pageColor;
@@ -49,7 +39,7 @@ class _PositiveFeedbackState extends BaseFeedbackPageState<PositiveFeedback> {
     _controllerTopCenter =
         ConfettiController(duration: const Duration(seconds: 1));
 
-    testSocket(widget.selectedIndex);
+    socketConnect(widget.selectedIndex);
     super.initState();
   }
 
