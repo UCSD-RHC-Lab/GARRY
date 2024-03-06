@@ -161,8 +161,8 @@ The following instructions are for the Turtlebot/robot that uses ROS, or a lapto
 1. Move our `GARRY-ROS` into the `src` subfolder in your catkin workspace (most commonly, this is known as `catkin_ws`).
 2. Run `cd ..` back to your root `catkin_ws` directory and run `catkin_make`.
 3. Next, run `source ~/catkin_ws/devel/setup.bash`.
-4. Run `echo $ROS_HOSTNAME` and ensure it's `localhost`. If not, write down the original value for backup and run `export ROS_HOSTNAME=localhost`.
-5. Run `echo $ROS_MASTER_URI` and ensure it's `http://localhost:11311`. If not, write down the original value for backup and run `export ROS_HOSTNAME=http://localhost:11311`.
+4. Run `echo $ROS_HOSTNAME` and ensure it's `localhost`. If not, write down the original value for backup and run `export ROS_HOSTNAME=localhost`. Then, run `echo $ROS_HOSTNAME` again to double check.
+5. Run `echo $ROS_MASTER_URI` and ensure it's `http://localhost:11311`. If not, write down the original value for backup and run `export ROS_MASTER_URI=http://localhost:11311`. Then, run `echo $ROS_MASTER_URI` again to double check.
 
 You can now get started looking through the code!
 
@@ -174,25 +174,30 @@ Our Flask server uses the port 5000.
 1. Open a terminal and navigate to the GARRY-Server folder.
 2. Run `python -m flask run -p 5000` to begin the flask server.
 
-### Flutter
-1. In VS Code, open the folder "GARRY-Flutter"
-2. On the bottom right of VS Code there will be text saying "Chrome(web-javascript)" or "Edge(web-javascript)". You can choose which device or platform you want to run it on.
-3. Open `main.dart` if you haven't already.
-4. On the top right of VS Code, you should see a "play" button, with or without a bug: You can click on the dropdown menu and hit "Run without debugging."
-5. Alternatively, instead of using VS Code in step 4, you could also open up a terminal, navigate to `GARRY-Flutter/lib`, and enter `flutter run main.dart`.
-
 ### ROS/Turtlebot
 1. Turn on your Turtlebot.
 2. On the laptop connected to the Turtlebot, open a terminal.
-3. Run `source ~/{your catkin workspace name}/devel/setup.bash`, replacing '{your catkin workspace name}' (it will most likely be `catkin_ws`.
+3. Run `source ~/{your catkin workspace name}/devel/setup.bash`, replacing '{your catkin workspace name}' (it will most likely be `catkin_ws`).
 4. Run `ifconfig` and take note of the IP address of the network the device is on.
-5. Run `roscore`.
-6. In another terminal, navigate to the `garry_ros` package folder by running `roscd garry_ros`.
-7. Run `startup.py` to both bring up the Turtlebot and to get it set up with the GARRY system.
+5. In another terminal, navigate to the `garry_ros` package folder by running `roscd garry_ros`. If it says not found, follow step 3 again and come back.
+6. Run `startup.py` to both bring up the Turtlebot and to get it set up with the GARRY system.
+7. Note: if step 6 doesn't work, you may have an system that does not run our Python script correctly. The idea of this was to reduce the amount of manual setup work--nothing huge. You just have to do the following manually:
+   - Run `roscore`.
+   - In another terminal, run `roslaunch garry_ros turtlebot.launch`
+   - In another terminal, run `roslaunch garry_ros startup.launch`
+   - If you're still having trouble, please follow the launch commands in the launch files respectively and manually run those commands.
 
+### Flutter
+1. In VS Code, open the folder "GARRY-Flutter"
+2. Go to the folder "lib" -> "globals" -> "global_states.dart" and ensure that `"rosWebSocketAddr"` maps to the IP address you obtained from the previous ROS step 4.
+3. On the bottom right of VS Code there will be text saying "Chrome(web-javascript)" or "Edge(web-javascript)". You can choose which device or platform you want to run it on.
+4. Open `main.dart` if you haven't already. Then, to run the app, do one of the following:
+  * On the top right of VS Code, you should see a "play" button, with or without a bug: You can click on the dropdown menu and hit "Run without debugging."
+  * Alternatively, instead of using VS Code in step 4, you could also open up a terminal, navigate to `GARRY-Flutter/lib`, and enter `flutter run main.dart`.
+  * Another way is to 
 
 ### MATLAB
-1. In the command window, run `server = TestServer(4000)`.
+1. In the command window, run `server = GarryMatlabServer(4000)`.
   
 
 ## Usage 
@@ -276,10 +281,9 @@ and entry for that id. With this popup appearing:
   <img src="Screenshots/New_User.png" alt="Create new user" />
 </p>
 
-The class myApp is the main app for this page, but within it, we return a 
-CupertinoApp and set it's home variable to a custom stateless widget. This 
-statless widget contains a build method that forms the basis of the page. At 
-override (when the page launches) the page is built with flexible dimensions, 
+The class GarryApp is the main app for this page, but within it, we return a 
+CupertinoApp and set its home variable to a custom stateful widget called `Login`. It contains a build method that forms the basis of the page.
+When the page launches, the page is built with flexible dimensions, 
 a navigation bar and a stack of widgets with sized boxes and a Text Field. This 
 field has a controller which clears the field when the 'X' is pressed. When the 
 **"next"** button is clicked the navigator pushes the participant ID to the next 
@@ -290,12 +294,12 @@ page.
   <img src="Screenshots/Session_Page.jpg" alt="Session Page" />
 </p>
 
-This leads the user to the Session page, named in the appbar, which gives the 
+This leads the user to the Sessions page, which gives the 
 user the option to start a new session or view previous sessions. The **“Start New Session”** 
 button sends the user to a new page where they can pick the type of 
-session they want to commence with. 
+session (feedback) they want to commence with. 
 
-This page recieves the data from the TextController in the main page and uses it
+This page receives data from the TextController in the main page and uses it
 to build itself. The **“Start New Session”** button is a custom widget derived from
 a CupertinoButton that has a navigator attached that pushes the user to the next
 page. 
@@ -324,26 +328,20 @@ corresponding session.
 Clicking on any of these cards will open up a new page with all the information from the session.
 
 
-##### Selection Page #####
+##### Feedback Selection Page #####
 <p align="center">
   <img src="Screenshots/Selection_Page.jpg" alt="Selection Page" />
 </p>
 
-On the Selection page, the user gets a choice of which type of session they want
+On the Feedback Selection page, the user gets a choice of which type of session they want
 to participate in with each different session listed in a custom widget designed
-to log the user’s choice so when the “next” button at the bottom right is
+to log the user’s choice so that when the “next” button at the bottom right is
 clicked, the user is sent to the page of the relevant session. In the future, it
 might make sense to store the session type at this point so it can be sent to
 the session database.
 
-Currently, each dataset contains a threshold value that patients are aiming to 
-acheive with each step, after the goal iA2 value (the threshold value) is 
-isolated, each value in the iA2 and step/stride count sections is converted into
-a future value which can be streamed into the custom widgets on the page and 
-used to make a visual representation of the patient’s progress. 
-
 Depending on the choice of session, the user is sent to the relevant starting 
-page where the session can begin in earnest and they can see multiple 
+page where the session can begin and they can see multiple 
 representations of their progress: 
 
 
@@ -352,11 +350,9 @@ representations of their progress:
   <img src="Screenshots/Pos_Feedback.jpg" alt="Example Positive Session" />
 </p>
 
-The custom thermometer widget which converts the future values into percentages 
-which are displayed as the height of the liquid in the thermometer, a space 
-where text feedback is displayed based on the value of the current converted 
-iA2, and the continuous linechart at the bottom of the page which displays each
-future on the chart with a horizontal indicator at the goal value 
+The custom thermometer widget that converts the iA2 values from the dataset into percentages are displayed as the height of the liquid in the thermometer. Following is a space where text feedback is displayed based on the value of the currently converted 
+iA2, and the continuous line chart at the bottom of the page which displays each
+percentage on the chart with a horizontal indicator at the goal value 
 (A perfect 100% step) for the entire session. There is also point counter at the
 top right of the screen that displays scores based on the feedback parameters.
 
@@ -377,14 +373,14 @@ a leaderboard setup.
 
 
 
-As the raw data is currently being collected by UC Davis via MATLAB, we used websockets to directly send that data locally from the MATLAB IDE to the application
+As the raw data is currently being collected by UC Davis via MATLAB, we used websockets to directly send that data locally from the MATLAB IDE to the application.
  
 <!-- The current version of the app uses a websocket that streams the data from collection into the app. In the current setup, when a dataset is chosen in app, it sends a unique signal to the websocket and in turn it builds the session using the data from the corresponding dataset. This system will be further configured to live data. -->
 
 GARRY utilizes MATLAB to process raw sensor data in real-time and simulate sessions for testing. The MATLAB code sends real-time, correctly formatted data from users to both our tablet application and the robot via websockets.
 
 Our implementation streams preexisting session data provided by our clinical collaborators into the app and the robot. This data is easily replaceable with real-time data received from sensors.
-To understand how we built a websocket server inside MATLAB to send the data see [the MatlabWebsocket documentation here.](https://github.com/UCSD-RHC-Lab/M3X-MatlabWebsocket)
+To understand how we built a websocket server inside MATLAB to send the data see [the MatlabWebsocket documentation here.](https://github.com/UCSD-RHC-Lab/M3X-MatlabWebsocket) (Again, this is based on jebej's implementation as mentioned above).
 
 Currently, once the researcher starts a session through the app, it sends a message to the MATLAB program to signal that the session is starting. 
 
@@ -396,13 +392,13 @@ The Matlab Websocket also sends data to the ROS Nodes we integrated into our sys
 
 Our ROS section of the code was implemented to have greater control of the robot's actions in relation to a user's performance during a session. To this end, our ROS system receives data from our Matlab websocket through specific topics, translates that data into the right format, and moves the robot accordingly.
 
-Matlab's connection with the ROS nodes is faciliatated through topics.
+The ROS nodes are facilitated through ROS topics.
 
-The `/data` topic receives the users step data and goal value for the session and returns that data.
+The `/data` topic receives the user's step data and goal value for the session from Matlab.
 
-The `/feedback_type` topic receives the chosen feedback mode of the session and returns that data.
+The `/feedback_type` topic receives the chosen feedback mode of the session from the Flutter app.
 
-The `/good_step` topic receives the average proportional A2 values over a period of time and returns a boolean value representing whether a good step has been achieved in that period.
+The `/good_step` topic receives a boolean value representing whether a good step has been achieved every 5 seconds.
 
 
  Our ROS system is characterized by 2 nodes:
@@ -419,7 +415,7 @@ This system allows us to take the A2 and goals data generated from the Matlab se
 
 - We aim to streamline the application and include some more functionality for 
 doctors or whoever would run each session, such as: 
-    - The ability to change the threshold value midsession 
+    - The ability to change the threshold value mid-session 
     - The ability to change the type of the linechart from discrete 
 points to continuous
     - The ability to monitor changes/trends between multiple sessions.
