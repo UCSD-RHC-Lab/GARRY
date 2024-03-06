@@ -22,7 +22,7 @@ class _NegativeFeedbackState extends BaseFeedbackPageState<NegativeFeedback> {
   @override
   void initState() {
     globalData['feedback_type'] = 'Negative';
-    socketConnect(widget.selectedIndex);
+    handleMatlabSocket(widget.selectedIndex);
     super.initState();
   }
 

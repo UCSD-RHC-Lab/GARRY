@@ -9,7 +9,6 @@ class sqliteHelper:
     
     id_col = 'participant_id'
 
-
     def __init__(self, db_path) -> None:
         '''
         Constructor. Minimal instance variable assignments. Kicks off the setup
@@ -106,10 +105,7 @@ class sqliteHelper:
         '''
         Get the sessions from the sessions table with specific pid.
         '''
-        # where_args = args.get('where')
-
         # build sort parameters
-
         sort_params = ""
         """
         if sort_args:
@@ -121,7 +117,6 @@ class sqliteHelper:
         """
         # execute query
         query = f"SELECT * FROM sessions WHERE participant_id = {pid} AND feedback_type = '{feedback_type}';"
-        print('query is', query)
         res = self.cs.execute(query).fetchall()
         return {'data': res}
 
@@ -141,11 +136,6 @@ class sqliteHelper:
                               " VALUES('" + data['name'] + "');").fetchall()
         else:
             check = object_has(data, ['feedback_type', 'participant_id'])
-            # print('Individual checks: ')
-            # print(object_has(data, 'feedback_type'))
-            # print(object_has(data, 'participant_id'))
-            # print(object_has(data, 'feedback_type'))
-            # print(data)
             if not check:
                 print('invalid fields, need feedback type, participant_id, and start_time')
                 return
@@ -155,9 +145,5 @@ class sqliteHelper:
                       + "', '" + data['day'] + "', '" + data['month'] + "', '" + data['year'] + "', '" + data['score'] + "', '"
                       + data['duration'] + "', '" + data['threshold'] + "');").fetchall()
             
-            
-        # elif table == 'Sessions':
-
         self.conn.commit()
-        print('lastrowid', self.cs.lastrowid)
         return self.cs.lastrowid

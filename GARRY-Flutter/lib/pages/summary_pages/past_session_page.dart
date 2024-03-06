@@ -30,6 +30,13 @@ class _PastSessionPageState extends State<PastSessionPage> {
 
   List<CardData> cards = [];
 
+  @override
+  void initState() {
+    super.initState();
+
+    fetchRecentValues(buttonLabels[_selectedButtonIndex]);
+  }
+
   ///
   /// Creates cards which include important information about each session in the database with 
   /// scores and dates of the session presented when their corresponding session type is clicked
@@ -38,7 +45,7 @@ class _PastSessionPageState extends State<PastSessionPage> {
     // Fetch the recent values based on the provided PID
     var participantId = globalData['participant_id'];
 
-    sessionData = await api.getSessions(participantId, feedbackType);
+    sessionData = await api.getSessions(int.parse(participantId), feedbackType);
 
     setState(() {
       cards = getCardDataListFromSessionData(sessionData);
@@ -117,7 +124,6 @@ class _PastSessionPageState extends State<PastSessionPage> {
                       'Score': sessionData[index][7],
                       'Feedback Type': sessionData[index][8],
                       'Threshold': sessionData[index][9],
-                      'Path to Dataset': sessionData[index][10],
                     };
 
                     // Navigate to the new page with session data

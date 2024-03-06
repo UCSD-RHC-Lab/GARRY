@@ -25,7 +25,6 @@ class FeedbackSelectionPage extends StatefulWidget {
 
 class _FeedbackSelectionPageState extends State<FeedbackSelectionPage> {
   int selectedIndex = 0;
-  final emailController = TextEditingController();
 
   ///
   /// Contains the file selection pages for each type of feedback. Parameters include

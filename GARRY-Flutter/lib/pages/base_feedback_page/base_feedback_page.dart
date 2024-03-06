@@ -321,7 +321,7 @@ class BaseFeedbackPageState<T extends BaseFeedbackPage> extends State<T> {
   ///
   /// Connects to the necessary websockets
   ///
-  void socketConnect(var selectedIndex) async {
+  void handleMatlabSocket(var selectedIndex) async {
     final wsUrl = Uri.parse(globals.networkConfigs["websocketAddr"]);
     channel = WebSocketChannel.connect(wsUrl);
     rosChannel = RosPublisher(globals.networkConfigs["rosWebSocketAddr"], 'garry/feedback_type', 'std_msgs/String');

@@ -39,7 +39,7 @@ class _PositiveFeedbackState extends BaseFeedbackPageState<PositiveFeedback> {
     _controllerTopCenter =
         ConfettiController(duration: const Duration(seconds: 1));
 
-    socketConnect(widget.selectedIndex);
+    handleMatlabSocket(widget.selectedIndex);
     super.initState();
   }
 

@@ -7,20 +7,16 @@ class DataProcessor:
     def __init__(self):
         self.feedback_type = "Positive"
         self.received_data = []
-        self.goal_val = 0.0
+        self.goal_val = 0.9
         self.average_val = 0
         self.goal_threshold = 0.9
         self.good_step_pub = rospy.Publisher('/garry/good_step', Bool, queue_size=10)
         self.good_step_msg = Bool()
 
     def calc_avg_val(self):
-        # Print the collected data
         average_val = 0
         if len(self.received_data) > 0:
             average_val = sum(self.received_data) / len(self.received_data)
-            print('Collected data: ', self.received_data)
-            print('And a goal value of: ', self.goal_val)
-            print('And an average step value % of: ', average_val/self.goal_val)
             self.received_data = []
 
         self.average_val = average_val

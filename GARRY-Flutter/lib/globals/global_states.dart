@@ -8,7 +8,7 @@
 /// Network configurations.
 ///
 final Map<String, dynamic> networkConfigs = {
-  "serverAddr": "ws://127.0.0.1:5000",
+  "serverAddr": "http://127.0.0.1:5000",
   "websocketAddr": "ws://localhost:4000",
   "rosWebSocketAddr": 'ws://100.84.30.80:9090'
 };

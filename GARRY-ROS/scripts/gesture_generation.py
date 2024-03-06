@@ -5,18 +5,15 @@ import os
 
 from std_msgs.msg import String, Bool
 
-from socket import gethostname
-from json import loads, dumps
 from geometry_msgs.msg import Twist
 import time
 
 class GestureGenerator:
     def __init__(self):
-        # For the gestures
         self.gesture_state = "Stop"
         self.step_state = "Normal"
         self.goal_val = 1.0
-        self.good_step_queue = []
+        self.good_step_queue = [] # using a queue in case of lags, want to make sure the robot responds
         self.stop_cmd = self._init_stop_cmd()
         self.frwd_cmd = self._init_frwd_cmd()
         self.backwrd_cmd = self._init_bwd_cmd()
@@ -49,11 +46,9 @@ class GestureGenerator:
         return left_cmd
 
     def rcv_good_step(self, msg):
-        print("received good step: " + str(msg.data))
         self.good_step_queue.append(msg.data)
 
     def rcv_feedback_type(self, msg): #This is the code that gets run on every value that is received
-        print("received " + str(msg.data) + "!")
         if msg.data.lower() not in ['positive', 'negative', 'binary', 'explicit']:
             rospy.logwarn("Invalid data format received: %s", msg.data)
         else:
@@ -61,7 +56,8 @@ class GestureGenerator:
             rospy.loginfo('Gesture state is now: %s', self.gesture_state)
         
     def perform_gesture(self):
-        self.good_step_queue.pop(0)
+        # pop to delete; should only be True values because should_perform_gesture pops False ones
+        self.good_step_queue.pop(0) 
         if self.gesture_state == 'Positive':
             self.positive_gesture()
         elif self.gesture_state == "Negative":

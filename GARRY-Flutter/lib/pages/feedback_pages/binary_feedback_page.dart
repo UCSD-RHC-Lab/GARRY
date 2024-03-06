@@ -39,7 +39,7 @@ class _BinaryFeedbackState extends BaseFeedbackPageState<BinaryFeedback> {
         ConfettiController(duration: const Duration(seconds: 1));
 
     setState(() {
-        socketConnect(widget.selectedIndex);
+        handleMatlabSocket(widget.selectedIndex);
     });
     super.initState();
   }

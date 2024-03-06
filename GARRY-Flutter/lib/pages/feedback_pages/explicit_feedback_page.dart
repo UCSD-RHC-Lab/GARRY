@@ -23,7 +23,7 @@ class _ExplicitFeedbackState extends BaseFeedbackPageState<ExplicitFeedback> {
     globalData['feedback_type'] = 'Explicit';
 
     setState(() {
-      socketConnect(widget.selectedIndex);
+      handleMatlabSocket(widget.selectedIndex);
     });
     super.initState();
   }
