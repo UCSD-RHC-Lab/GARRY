@@ -177,6 +177,9 @@ Our Flask server uses the port 5000.
 ### Flutter
 1. In VS Code, open the folder "GARRY-Flutter"
 2. On the bottom right of VS Code there will be text saying "Chrome(web-javascript)" or "Edge(web-javascript)". You can choose which device or platform you want to run it on.
+3. Open `main.dart` if you haven't already.
+4. On the top right of VS Code, you should see a "play" button, with or without a bug: You can click on the dropdown menu and hit "Run without debugging."
+5. Alternatively, instead of using VS Code in step 4, you could also open up a terminal, navigate to `GARRY-Flutter/lib`, and enter `flutter run main.dart`.
 
 ### ROS/Turtlebot
 1. Turn on your Turtlebot.
