@@ -1,6 +1,8 @@
 MatlabWebSocket
 ===============
 
+This is a library based on jebej's MatlabWebSocket implementation. Link is in the root repository README.
+
 MatlabWebSocket is a simple library consisting of a websocket server and client for MATLAB  built on [Java-WebSocket](https://github.com/TooTallNate/Java-WebSocket), a java implementation of the websocket protocol. Encryption is supported with self-signed certificates made with the java keytool.
 
 Installation and Uninstallation
