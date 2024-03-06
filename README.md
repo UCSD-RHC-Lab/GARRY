@@ -208,51 +208,54 @@ and put it in your **assets** folder.
 
 ##### Application Structure Overview #####
 
-The `api` directory contains:
+The `anim` directory contains any animation related files:
+* `ease_out_back_scaled.dart`: Defines a cubic animation curve for Scoreboard animation.
+
+The `api` directory contains any API related files:
 * `api.dart`: All API calls to the GARRY-Server in order to retrieve and update sessions and participant data.
 In the future, we plan to separate this into two files: `sessions_api.dart` and `participants_api.dart`.
 
-The `backend` repository contains:
+The `backend` directory contains any backend classes that represent data objects:
 * `score_entry.dart`: A PODO (plain old Dart object) for each score entry on the scoreboard, containing the date (string) and the score (int).
 
-The `components` repository contains front end widgets:
-* `confettiColors.dart`: The set colors of the confetti associated with regular and binary confetti controllers, differing by color selection.
-* `navigation.dart`: A Cupertino Navigation Bar and the nextPageButton Widget along with their styles
-* `progress_chart.dart`: The Progress Chart widget that creates the line chart during each session. Contains its height (double), dataPoints (FLSpot), colors (Color), and threshold Line (FLSpot)
-* `score_card.dart`: The ScoreCard class that contains its key, rank, date, score, newIndex, reportHeight and animations
-* `selection_menu.dart`: The SelectionMenu widget which contains its text, slectionIndex and style, and the SelectionMenuOption class which contains its index, fontSize, text and other components
-* `sessions_table.dart`: The globalData Map (dictionary in Python), that gets filled & sent out with each new session
-* `text_labels.dart`: The particiapntIDLabel which shows the participants ID
+The `constants` directory contains any constants used throughout the app:
+* `confetti_colors.dart`: The set colors of the confetti associated with regular and binary confetti controllers, differing by color selection.
+* `strings.dart`: Any string constants used by the app inspired by Android app structure. Currently not well-integrated.
 
-The `constants` repository contains:
-* `enums.dart`: The list of feedback types in use for the application
-* `strings.dart`: The string form of the path to the assets folder
+The `globals` directory contains dynamic global states:
+* `global_states`: Defines any dynamic global states, such as the network configurations and global app data (planning to switch to use provider pattern).
 
-The `Feedback_widgets` repository contains:
-* `Binary_widgets.dart`: A group of widgets that provide the basis of the session page for Explicit Feedback. Contains the progressBar, coin display, pointDisplay, percentageDisplay, endSessionButton, textFeedback and pointsFeedback widgets that appear on those pages.
-* `Positive_widgets.dart`: The same as `Binary_widgets.dart` but also includes the confetti widgets and is used for Positive, Negative, and Binary feedback pages.
+The `pages` directory contains all of the pages within the app:
+* The `base_feedback_page` directory contains files related to the base feedback page which the various feedback pages will inherit from. Contains the progressBar, coin display, pointDisplay, percentageDisplay, endSessionButton, textFeedback and pointsFeedback widgets that appear on the feedback pages.
+  * `base_feedback_page.dart`: An abstracted base version of every feedback page which can be extended to cater to each specific feedback type.
+  * `feedback_page_widgets.dart`: Contains the different widgets necessary to build the feedback page.
+  * `file_selection_page.dart`: Contains the file selection page that allows the user to choose which mock data source file they want to work with.
+* The `feedback_pages` directory contains all of the positive, negative, binary, and explicit feedback pages. More details will be described below. 
+* The `main_pages` directory contains the main pages aside from the landing page and the feedback pages:
+  * `feedback_selection_page.dart`: The page that allows users to select the type of feedback they want this session to run with.
+  * `sessions_page`: The page for users to choose to view past sessions or to start a new session.
+* The `summary_pages` directory contains the pages that show a summary of session information.
+  * `past_session_page.dart`: The page where users can view the past sessions of a participant.
+  * `summary_page.dart`: The leaderboard page that shows the rank, date, and score of each session a participant has partaken in.
 
-The `globals` repository contains:
-* `global_states`: The network congifhurations (locations of the SQL server address and the Websocket server address)
+The `providers` directory contains any files related to the provider pattern:
+* `user_model.dart`: A UserModel provider that extends a ChangeNotifier, contains the setPID and setName functions, and allows the properties of a user to be carried between pages and referenced globally within the app.
 
-The `providers` repository contains:
-* `user_model.dart`: A UserModel provider that extends a ChangeNotifier, contains the setPID and setName functions, and allows the properties of a user to be carried between pages and referenced globally within the app. 
+The `ui` directory contains any files related to UI. Currently only contains the file for responsively scaling the app on different screens:
+* `dimensions.dart`: Contains enums (fixed set of named values) for the different feedback page components, set values for the dimensions of each of those pages and a computeSize variable to calculate the remaining dimensions needed.
 
-The `ui` repository contains:
-* `dimensions.dart`: Contains enums (fixed set of named values) for the different feedback page components, set values for the dimensions of each of those pages and a computeSize variable to calculate the remaining dimensions needed
+The `websockets` directory contains any files that makes connections with and communicates with other hosts via websockets:
+* `roscomm.dart`: A wrapper class for any communication related classes with ROS.
 
-The `utils` repository contains:
-* `ease_out_back_scaled.dart`: The EaseOutBackScaled class which sets the scale for transforms that are used on various pages
-
-The `widgets\feedback page` repository contains:
+The `widgets` directory contains front end widgets:
+* `navigation.dart`: A Cupertino Navigation Bar and the nextPageButton Widget along with their styles.
+* `progress_chart.dart`: The Progress Chart widget that creates the line chart during each session. Contains its height (double), dataPoints (FLSpot), colors (Color), and threshold Line (FLSpot).
+* `score_card.dart`: The ScoreCard class that contains its key, rank, date, score, newIndex, reportHeight and animations.
 * `scoreboard.dart`: The self-containing, animated, scrollable widget that displays session scores in descending order.
-* 
-* `base_feedback_page.dart`: An abstracted base version of every feedback page which can be extended to cater to each specific feedback type.
-* `feedback_page_component.dart`: Contains the different methods and widgets necessary to build the feedback page.
-* `file_selection_page.dart`: Contains the file selection page that contains the mock data we test with. 
+* `selection_menu.dart`: The SelectionMenu widget which contains its text, slectionIndex and style, and the SelectionMenuOption class which contains its index, fontSize, text and other widgets.
+* `text_labels.dart`: Any text labels or prompt widgets go here.
 
-The rest of the dart pages like `Positive_Feedback.dart` will be described below.
-
+The rest of the feedback pages like `positive_feedback.dart` will be described in more detail below.
 
 ##### Main Page #####
 <p align="center">
