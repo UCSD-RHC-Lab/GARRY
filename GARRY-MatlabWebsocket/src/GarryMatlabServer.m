@@ -1,8 +1,14 @@
 classdef GarryMatlabServer < WebSocketServer
-    %ECHOSERVER Summary of this class goes here
-    %   Detailed explanation goes here
+    % The Matlab server that sends both Flutter and ROS/robot data. Here,
+    % the workflow is that Flutter sends the server the specific file 
+    % choice we want to stream ('one', 'two', etc.). The choice string was
+    % determined arbitrarily; any string will do. The choice then
+    % corresponds to which file we will stream to both Flutter and ROS.
         
     properties
+        % 9090 is the default rosbridge port
+        % Make sure to change the IP address
+        rosbridgeURL = 'ws://192.168.1.166:9090';
     end
     
     methods
@@ -18,8 +24,11 @@ classdef GarryMatlabServer < WebSocketServer
         end
         
         function onTextMessage(obj,conn,message)
-            % Testing stuff %
+            % Debug purposes
             fprintf('Received message: %s\n', message);
+
+            % Spin up the Rosbridge client to send data to ROS
+            RosbridgeClient()
 
             % cd over to the data folder
             baseFolder = fullfile(fileparts(mfilename('fullpath')), '..', 'data');
@@ -40,18 +49,7 @@ classdef GarryMatlabServer < WebSocketServer
             a2Vals3 = table2array(s3Data(:,2));
             a2Vals4 = table2array(s4Data(:,2));
             a2Vals5 = table2array(s5Data(:,2));
-            % a2Vals = cell2mat(a2Vals); %Converts to doubles
-            % This function sends an echo back to the client
-            if strcmp(message, 'start')
-                i = 1;
-                while i < 10
-                    %conn.send(sprintf('you connected lets gooo %d', i)); % Echo
-                    val = [a2Vals1(i), goalVal1];
-                    conn.send(sprintf('%f, %f', val));
-                    i = i+1;
-                    pause(0.1) % Pause for 100 ms
-                end
-            end
+
             if strcmp(message, 'one') % The length of message has to be the same as 'start'
                 i = 1;
                 while i < length(a2Vals1)
