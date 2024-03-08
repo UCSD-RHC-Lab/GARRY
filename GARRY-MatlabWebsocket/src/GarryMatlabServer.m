@@ -27,9 +27,6 @@ classdef GarryMatlabServer < WebSocketServer
             % Debug purposes
             fprintf('Received message: %s\n', message);
 
-            % Spin up the Rosbridge client to send data to ROS
-            RosbridgeClient()
-
             % cd over to the data folder
             baseFolder = fullfile(fileparts(mfilename('fullpath')), '..', 'data');
             cd(baseFolder);
@@ -50,51 +47,35 @@ classdef GarryMatlabServer < WebSocketServer
             a2Vals4 = table2array(s4Data(:,2));
             a2Vals5 = table2array(s5Data(:,2));
 
-            if strcmp(message, 'one') % The length of message has to be the same as 'start'
-                i = 1;
-                while i < length(a2Vals1)
-                    val = [a2Vals1(i), goalVal1];
-                    conn.send(sprintf('%f, %f', val));
-                    i = i+1;
-                    pause(0.05)
-                end
+            r = RosPublisher(obj.rosbridgeURL, "/garry/data", "std_msgs/Float32");
+
+            % Select the right data
+            array = a2Vals1;
+            goalVal = goalVal1;
+            switch message
+                case 'two'
+                    array = a2Vals2;
+                    goalVal = goalVal2;
+                case 'three'
+                    array = a2Vals3;
+                    goalVal = goalVal3;
+                case 'four'
+                    array = a2Vals4;
+                    goalVal = goalVal4;
+                case 'five'
+                    array = a2Vals5;
+                    goalVal = goalVal5;
             end
-            if strcmp(message, 'two')
-                i = 1;
-                while i < length(a2Vals2)
-                    val = [a2Vals2(i), goalVal2];
-                    conn.send(sprintf('%f, %f', val));
-                    i = i+1;
-                    pause(0.05)
-                end
+
+            i = 1;
+            while i < length(array)
+                val = [array(i), goalVal];
+                conn.send(sprintf('%f, %f', val));
+                r.publish(array(i));
+                i = i+1;
+                pause(0.05)
             end
-            if strcmp(message, 'three')
-                i = 1;
-                while i < length(a2Vals3)
-                    val = [a2Vals3(i), goalVal3];
-                    conn.send(sprintf('%f, %f', val));
-                    i = i+1;
-                    pause(0.05)
-                end
-            end
-            if strcmp(message, 'four')
-                i = 1;
-                while i < length(a2Vals4)
-                    val = [a2Vals4(i), goalVal4];
-                    conn.send(sprintf('%f, %f', val));
-                    i = i+1;
-                    pause(0.05)
-                end
-            end
-            if strcmp(message, 'five')
-                i = 1;
-                while i < length(a2Vals5)
-                    val = [a2Vals5(i), goalVal5];
-                    conn.send(sprintf('%f, %f', val));
-                    i = i+1;
-                    pause(0.05)
-                end
-            end
+            
             conn.send('end'); %Should let the other side close the connection
         end
         

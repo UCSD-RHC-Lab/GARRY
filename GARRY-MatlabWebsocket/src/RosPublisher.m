@@ -28,6 +28,7 @@ classdef RosPublisher < WebSocketClient
             % Advertise a topic to be established on ROS
             msg = sprintf('{"op": "advertise", "topic": "%s", "type": "%s"}', obj.topic, obj.msgType);
             obj.send(char(msg));
+            fprintf("Advertised?");
         end
         
         function onTextMessage(obj,message)
