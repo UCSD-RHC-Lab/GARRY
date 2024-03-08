@@ -47,7 +47,7 @@ classdef GarryMatlabServer < WebSocketServer
             a2Vals4 = table2array(s4Data(:,2));
             a2Vals5 = table2array(s5Data(:,2));
 
-            r = RosPublisher(obj.rosbridgeURL, "/garry/data", "std_msgs/Float32");
+            r = RosPublisher(obj.rosbridgeURL, "/garry/data", "garry_ros/UserData");
 
             % Select the right data
             array = a2Vals1;
@@ -71,7 +71,7 @@ classdef GarryMatlabServer < WebSocketServer
             while i < length(array)
                 val = [array(i), goalVal];
                 conn.send(sprintf('%f, %f', val));
-                r.publish(array(i));
+                r.publish(val);
                 i = i+1;
                 pause(0.05)
             end

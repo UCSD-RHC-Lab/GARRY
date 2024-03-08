@@ -15,9 +15,10 @@ classdef RosPublisher < WebSocketClient
 
         function publish(obj, data)
             % This function publishes a message on the specified topic
-            % (currently only supports Float32. If desired, can be modified
+            % (currently only supports UserData. If desired, can be modified
             % to support other message types).
-            msg = sprintf('{"op": "publish", "topic": "%s", "msg": {"data": %d}}', obj.topic, data);
+            [a2, goal] = data;
+            msg = sprintf('{"op": "publish", "topic": "%s", "msg": {"a2": %d, "goal": %d}}', obj.topic, a2, goal);
             obj.send(char(msg))
             fprintf('Sent message: %s\n', msg);
         end
