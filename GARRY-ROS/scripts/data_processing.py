@@ -2,12 +2,13 @@
 import rospy
 
 from std_msgs.msg import String, Bool
+from garry_ros.msg import UserData
 
 class DataProcessor:
     def __init__(self):
         self.feedback_type = "Positive"
         self.received_data = []
-        self.goal_val = 0.9
+        self.goal_val = 0.9 # default to 0.9 to avoid division by 0
         self.average_val = 0
         self.goal_threshold = 0.9
         self.good_step_pub = rospy.Publisher('/garry/good_step', Bool, queue_size=10)
@@ -23,7 +24,7 @@ class DataProcessor:
         return average_val
     
     def handle_data(self, data):
-        a2value, goal = [float(x) for x in data.data.split(',')]
+        a2value, goal = data.a2, data goal
         self.update_data(a2value)
         self.update_goal(goal)
 
@@ -56,7 +57,7 @@ if __name__ == "__main__":
     dpn = DataProcessor()
 
     # Subscribers and publishers
-    data_sub = rospy.Subscriber('/data', String, dpn.handle_data)
+    data_sub = rospy.Subscriber('/data', UserData, dpn.handle_data)
     feedback_type_sub = rospy.Subscriber('/feedback_type', String, dpn.handle_feedback_type)
 
     rate = rospy.Rate(10) # set the publishing rate
