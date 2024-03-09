@@ -114,6 +114,7 @@ On a Windows laptop/computer:
 
 On the Ubuntu laptop/computer:
 - Python 2.7
+- rosbridge_suite
 
 <!-- * Install Android Studio V 1.0.0+1 and Visual Studio V 17.5 on your device.
 * Clone the GARRY-Flutter repository to your local device.
@@ -167,10 +168,10 @@ The following instructions are for the Turtlebot/robot that uses ROS, or a lapto
     3. `source ~/catkin_ws/devel/setup.bash`
        * This will make sure all ROS packages, including `garry_ros`, can be found by the system.
 5. Now when you create new tabs/windows, the environment variables should stay consistent (no need to re-do steps 2-4).
-6. Navigate to the scripts folder then run `chmod +x` to make your python file (x) executable.
+6. Navigate to the `scripts` folder then run `chmod +x *.py` to make all of the Python files executable with the `x` permission.
 7. Finally, to install Rosbridge, run `sudo apt-get install ros-<rosdistro>-rosbridge-server`.
    1. Next, run `source ~/catkin_ws/devel/setup.bash`.
-   2. To launch the file, run `roslaunch rosbridge_server rosbridge_websocket.launch`.
+   2. To launch the websocket server, run `roslaunch rosbridge_server rosbridge_websocket.launch`.
 
 You can now get started looking through the code!
 
@@ -194,8 +195,12 @@ Our Flask server uses the port 5000.
    - In another terminal, run `roslaunch garry_ros turtlebot.launch`
    - In another terminal, run `roslaunch garry_ros startup.launch`
    - If you're still having trouble, please follow the launch commands in the launch files respectively and manually run those commands.
-8. Alternatively, you could 
+8. Spin up the rosbridge server by running `roslaunch rosbridge_server rosbridge_websockets.launch` so MATLAB can communicate with the robot.
 
+### MATLAB
+1. In the command window, run `server = GarryMatlabServer(4000, <robot IP address>)`, replacing `<robot IP address>` with the robot's IP address (as a string).
+2. If you wish to stop the server at any point, type in `server.stop`. More commands can be found in jebej's GitHub repo as linked above.
+  
 ### Flutter
 1. In VS Code, open the folder "GARRY-Flutter"
 2. Go to the folder "lib" -> "globals" -> "global_states.dart" and ensure that `"rosWebSocketAddr"` maps to the IP address you obtained from the previous ROS step 4.
@@ -207,10 +212,7 @@ Our Flask server uses the port 5000.
     2. You're not in a folder where you can access the root folder of the app `GARRY-Flutter`. You can do so by going to File -> Open Folder, and choose either GARRY-Flutter or any of its parent directories.
   * Alternatively, instead of using VS Code in step 4, you could also open up a terminal, navigate to `GARRY-Flutter/lib`, and enter `flutter run main.dart`.
 
-### MATLAB
-1. In the command window, run `server = GarryMatlabServer(4000, <robot IP address>)`, replacing `<robot IP address>` with the robot's IP address (as a string).
-2. If you wish to stop the server at any point, type in `server.stop`. More commands can be found in jebej's GitHub repo as linked above.
-  
+
 
 ## Usage 
 The following breaks down the important elements necessary to use each aspect of our system.
