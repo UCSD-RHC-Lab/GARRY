@@ -148,7 +148,7 @@ The folder "GARRY-Flutter" should be placed on the Windows computer/laptop.
 3. Extract the zip into a folder, and ensure that it has a subfolder inside named `flutter`. Note where this subfolder is located; you will need to know this path when setting up VS Code below.
 
 #### VS Code/extensions
-The VS Code editor we discuss here will refer to installation on the Windows laptop/computer. You can download VS Code here. TODO
+The VS Code editor we discuss here will refer to installation on the Windows laptop/computer. You can download VS Code [here](https://code.visualstudio.com/download).
 1. Install the Flutter and Dart extensions in VS Code.
 2. Open up the "GARRY-Flutter" folder.
 3. If prompted, hit "Locate SDK" and locate the `bin` subfolder under Flutter SDK/folder you downloaded and extracted.
@@ -187,8 +187,8 @@ Our Flask server uses the port 5000.
 6. Run `startup.py` to both bring up the Turtlebot and to get it set up with the GARRY system.
 7. Note: if step 6 doesn't work, you may have an system that does not run our Python script correctly. The idea of this was to reduce the amount of manual setup work--nothing huge. You just have to do the following manually:
    - Run `roscore`.
-   - In another terminal, run `roslaunch garry_ros turtlebot.launch` (make sure the ROS_HOSTNAME and ROS_MASTER_URI are correctly set in this terminal)
-   - In another terminal, run `roslaunch garry_ros startup.launch` (make sure the ROS_HOSTNAME and ROS_MASTER_URI are correctly set in this terminal)
+   - In another terminal, run `roslaunch garry_ros turtlebot.launch`
+   - In another terminal, run `roslaunch garry_ros startup.launch`
    - If you're still having trouble, please follow the launch commands in the launch files respectively and manually run those commands.
 
 ### Flutter
