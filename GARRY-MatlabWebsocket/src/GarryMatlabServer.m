@@ -49,7 +49,7 @@ classdef GarryMatlabServer < WebSocketServer
             a2Vals5 = table2array(s5Data(:,2));
 
             r = RosPublisher(obj.rosbridgeURL, "/garry/data", "garry_ros/UserData");
-            r.advertise();
+            % r.advertise();
 
             % Select the right data
             array = a2Vals1;
