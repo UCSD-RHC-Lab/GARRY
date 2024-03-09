@@ -114,6 +114,7 @@ On a Windows laptop/computer:
 
 On the Ubuntu laptop/computer:
 - Python 2.7
+- rosbridge_suite
 
 <!-- * Install Android Studio V 1.0.0+1 and Visual Studio V 17.5 on your device.
 * Clone the GARRY-Flutter repository to your local device.
@@ -150,7 +151,7 @@ The folder "GARRY-Flutter" should be placed on the Windows computer/laptop.
 3. Extract the zip into a folder, and ensure that it has a subfolder inside named `flutter`. Note where this subfolder is located; you will need to know this path when setting up VS Code below.
 
 #### VS Code/extensions
-The VS Code editor we discuss here will refer to installation on the Windows laptop/computer. You can download VS Code here. TODO
+The VS Code editor we discuss here will refer to installation on the Windows laptop/computer. You can download VS Code [here](https://code.visualstudio.com/download).
 1. Install the Flutter and Dart extensions in VS Code.
 2. Open up the "GARRY-Flutter" folder.
 3. If prompted, hit "Locate SDK" and locate the `bin` subfolder under Flutter SDK/folder you downloaded and extracted.
@@ -161,14 +162,14 @@ The following instructions are for the Turtlebot/robot that uses ROS, or a lapto
 1. Move our `GARRY-ROS` into the `src` subfolder in your catkin workspace (most commonly, this is known as `catkin_ws`).
 2. Run `cd ..` back to your root `catkin_ws` directory and run `catkin_make`.
 3. Next, run `source ~/catkin_ws/devel/setup.bash`.
-4. Edit your bashrc file to set the environment variables permanently
-   1. For example you could run `sudo vim ~/.bashrc`, ensure the lines:
-      1. `export ROS_HOSTNAME=<your IP Address>` (use ifconfig to get new IP Address upon rebooting computer)
-      2. `export ROS_MASTER_URI=http://${ROS_HOSTNAME}:11311`
-      3. `source ~/catkin_ws/devel/setup.bash`
-   are all present and are uncommented.
-5. Run `echo $ROS_MASTER_URI` and ensure it's `http://localhost:11311`. If not, write down the original value for backup and run `export ROS_MASTER_URI=http://localhost:11311`. Then, run `echo $ROS_MASTER_URI` again to double check.
-6. Now when you create new tabs/windows, the environment variables should stay consistent (no need to re-do steps 2-4).
+4. Edit your bashrc file to set the following environment variables permanently by ensuring the following lines are all present/uncommented. You can do this by running `sudo vim ~/.bashrc` for example. Note: It might be a good idea to back up the original values before you modify each of the following:
+    1. `export ROS_HOSTNAME=<your IP Address>`
+       * Replace `<your IP address>` with the IP address of the Turtlebot/robot laptop. `ipconfig` can help. Use `ifconfig` to get new IP Address upon rebooting computer.
+    2. `export ROS_MASTER_URI=http://${ROS_HOSTNAME}:11311`
+       * Using the previously declared variable `ROS_HOSTNAME` will reduce the number of changes made.
+    3. `source ~/catkin_ws/devel/setup.bash`
+       * This will make sure all ROS packages, including `garry_ros`, can be found by the system.
+5. Now when you create new tabs/windows, the environment variables should stay consistent (no need to re-do steps 2-4).
 
 You can now get started looking through the code!
 
