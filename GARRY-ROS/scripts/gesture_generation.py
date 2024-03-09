@@ -13,7 +13,7 @@ class GestureGenerator:
         self.gesture_state = "Stop"
         self.step_state = "Normal"
         self.goal_val = 1.0
-        self.good_step_queue = [] # using a queue in case of lags, want to make sure the robot responds
+        self.should_perform_gesture = False
         self.stop_cmd = self._init_stop_cmd()
         self.frwd_cmd = self._init_frwd_cmd()
         self.backwrd_cmd = self._init_bwd_cmd()
@@ -46,7 +46,7 @@ class GestureGenerator:
         return left_cmd
 
     def rcv_good_step(self, msg):
-        self.good_step_queue.append(msg.data)
+        self.should_perform_gesture = msg.data
 
     def rcv_feedback_type(self, msg): #This is the code that gets run on every value that is received
         if msg.data.lower() not in ['positive', 'negative', 'binary', 'explicit']:
@@ -56,8 +56,6 @@ class GestureGenerator:
             rospy.loginfo('Gesture state is now: %s', self.gesture_state)
         
     def perform_gesture(self):
-        # pop to delete; should only be True values because should_perform_gesture pops False ones
-        self.good_step_queue.pop(0) 
         if self.gesture_state == 'Positive':
             self.positive_gesture()
         elif self.gesture_state == "Negative":
@@ -103,19 +101,6 @@ class GestureGenerator:
         rospy.sleep(1.0)
         self.cmd_vel_pub.publish(self.stop_cmd)
 
-    def should_perform_gesture(self):
-        """
-        Checks if we should perform a gesture based on the queue.
-
-        Returns:
-        - True if the robot should perform a gesture; False otherwise
-        """
-        while self.good_step_queue:
-            if self.good_step_queue[0] == False:
-                self.good_step_queue.pop(0)
-            else:
-                return True
-        return False
 
 if __name__ == '__main__':
     rospy.init_node('gesture_generation')
@@ -135,12 +120,12 @@ if __name__ == '__main__':
         # Get the current time
         start_time = rospy.Time.now()
 
-        # wait 5 seconds
+        # wait duration seconds before performing another gesture
         while (rospy.Time.now() - start_time).to_sec() < duration:
             rospy.sleep(0.1)
 
         # as long as the robot shouldn't perform a gesture, we keep checking
-        while not ggn.should_perform_gesture():
+        while not ggn.should_perform_gesture:
             rospy.sleep(0.1)
             
         ggn.perform_gesture()
