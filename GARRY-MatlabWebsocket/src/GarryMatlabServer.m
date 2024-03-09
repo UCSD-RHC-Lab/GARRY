@@ -77,7 +77,7 @@ classdef GarryMatlabServer < WebSocketServer
                 pause(0.05)
             end
             
-            conn.send('end'); %Should let the other side close the connection
+            r.close();
         end
         
         function onBinaryMessage(obj,conn,bytearray)
