@@ -140,8 +140,6 @@ For our MATLAB server, we utilized [jebej's MatlabWebSocket library](https://git
 5. In the command window, type in `javaclasspath` and verify that the path to your jar file is listed.
 6. At the top of MATLAB, go to Home -> Environment -> Set Path.
 7. Click on "Add Folder" and add the `src` subfolder under the "GARRY-MatlabWebsocket" folder. Then click "Save". If it asks you if you want to save it to another location, hit "Yes". Lastly, hit "Close".
-8. Run `server = GarryMatlabServer(4000)` and verify that there are no errors. If this does not work, restart MATLAB and try again.
-9. If you wish to stop the server at any point, type in `server.stop`. More commands can be found in jebej's GitHub repo as linked above.
 
 #### Flutter
 The folder "GARRY-Flutter" should be placed on the Windows computer/laptop.
@@ -150,7 +148,7 @@ The folder "GARRY-Flutter" should be placed on the Windows computer/laptop.
 3. Extract the zip into a folder, and ensure that it has a subfolder inside named `flutter`. Note where this subfolder is located; you will need to know this path when setting up VS Code below.
 
 #### VS Code/extensions
-The VS Code editor we discuss here will refer to installation on the Windows laptop/computer. You can download VS Code here. TODO
+The VS Code editor we discuss here will refer to installation on the Windows laptop/computer. You can download VS Code [here](https://code.visualstudio.com/download).
 1. Install the Flutter and Dart extensions in VS Code.
 2. Open up the "GARRY-Flutter" folder.
 3. If prompted, hit "Locate SDK" and locate the `bin` subfolder under Flutter SDK/folder you downloaded and extracted.
@@ -161,6 +159,7 @@ The following instructions are for the Turtlebot/robot that uses ROS, or a lapto
 1. Move our `GARRY-ROS` into the `src` subfolder in your catkin workspace (most commonly, this is known as `catkin_ws`).
 2. Run `cd ..` back to your root `catkin_ws` directory and run `catkin_make`.
 3. Next, run `source ~/catkin_ws/devel/setup.bash`.
+<<<<<<< HEAD
 4. Edit your bashrc file to set the environment variables permanently
    1. For example you could run `sudo vim ~/.bashrc`, ensure the lines:
       1. `export ROS_HOSTNAME=<your IP Address>` (use ifconfig to get new IP Address upon rebooting computer)
@@ -173,6 +172,16 @@ The following instructions are for the Turtlebot/robot that uses ROS, or a lapto
 8. Finally, to install Rosbridge, run `sudo apt-get install ros-<rosdistro>-rosbridge-server`.
 9. Next, run `source ~/catkin_ws/devel/setup.bash`.
 10. Finally, to launch the file, run `roslaunch rosbridge_server rosbridge_websocket.launch`.
+=======
+4. Edit your bashrc file to set the following environment variables permanently by ensuring the following lines are all present/uncommented. You can do this by running `sudo vim ~/.bashrc` for example. Note: It might be a good idea to back up the original values before you modify each of the following:
+    1. `export ROS_HOSTNAME=<your IP Address>`
+       * Replace `<your IP address>` with the IP address of the Turtlebot/robot laptop. `ipconfig` can help. Use `ifconfig` to get new IP Address upon rebooting computer.
+    2. `export ROS_MASTER_URI=http://${ROS_HOSTNAME}:11311`
+       * Using the previously declared variable `ROS_HOSTNAME` will reduce the number of changes made.
+    3. `source ~/catkin_ws/devel/setup.bash`
+       * This will make sure all ROS packages, including `garry_ros`, can be found by the system.
+5. Now when you create new tabs/windows, the environment variables should stay consistent (no need to re-do steps 2-4).
+>>>>>>> cf5003eee068fdf58a707d000493e6b1831cc2dd
 
 You can now get started looking through the code!
 
@@ -193,8 +202,8 @@ Our Flask server uses the port 5000.
 6. Run `startup.py` to both bring up the Turtlebot and to get it set up with the GARRY system.
 7. Note: if step 6 doesn't work, you may have an system that does not run our Python script correctly. The idea of this was to reduce the amount of manual setup work--nothing huge. You just have to do the following manually:
    - Run `roscore`.
-   - In another terminal, run `roslaunch garry_ros turtlebot.launch` (make sure the ROS_HOSTNAME and ROS_MASTER_URI are correctly set in this terminal)
-   - In another terminal, run `roslaunch garry_ros startup.launch` (make sure the ROS_HOSTNAME and ROS_MASTER_URI are correctly set in this terminal)
+   - In another terminal, run `roslaunch garry_ros turtlebot.launch`
+   - In another terminal, run `roslaunch garry_ros startup.launch`
    - If you're still having trouble, please follow the launch commands in the launch files respectively and manually run those commands.
 8. Alternatively, you could 
 
@@ -204,11 +213,14 @@ Our Flask server uses the port 5000.
 3. On the bottom right of VS Code there will be text saying "Chrome(web-javascript)" or "Edge(web-javascript)". You can choose which device or platform you want to run it on.
 4. Open `main.dart` if you haven't already. Then, to run the app, do one of the following:
   * On the top right of VS Code, you should see a "play" button, with or without a bug: You can click on the dropdown menu and hit "Run without debugging."
+  * Another way is to go to `main.dart` in VS Code, find the `main` method, and above it should be a "Run" button alongside "Debug" and others. If you don't have this, it's likely that either:
+    1. You don't have the Flutter extension installed correctly. Be sure to restart VS Code.
+    2. You're not in a folder where you can access the root folder of the app `GARRY-Flutter`. You can do so by going to File -> Open Folder, and choose either GARRY-Flutter or any of its parent directories.
   * Alternatively, instead of using VS Code in step 4, you could also open up a terminal, navigate to `GARRY-Flutter/lib`, and enter `flutter run main.dart`.
-  * Another way is to 
 
 ### MATLAB
-1. In the command window, run `server = GarryMatlabServer(4000)`.
+1. In the command window, run `server = GarryMatlabServer(4000, <robot IP address>)`, replacing `<robot IP address>` with the robot's IP address (as a string).
+2. If you wish to stop the server at any point, type in `server.stop`. More commands can be found in jebej's GitHub repo as linked above.
   
 
 ## Usage 
