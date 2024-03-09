@@ -168,7 +168,11 @@ The following instructions are for the Turtlebot/robot that uses ROS, or a lapto
       3. `source ~/catkin_ws/devel/setup.bash`
    are all present and are uncommented.
 5. Run `echo $ROS_MASTER_URI` and ensure it's `http://localhost:11311`. If not, write down the original value for backup and run `export ROS_MASTER_URI=http://localhost:11311`. Then, run `echo $ROS_MASTER_URI` again to double check.
-6. Now when you create new tabs/windows, the environment variables should stay consistent (no need to re-do steps 2-4).
+6. Navigate to the sciprts folder then run `chmod +x` to make your python file (x) executable.
+7. Now when you create new tabs/windows, the environment variables should stay consistent (no need to re-do steps 2-4).
+8. Finally, to install Rosbridge, run `sudo apt-get install ros-<rosdistro>-rosbridge-server`.
+9. Next, run `source ~/catkin_ws/devel/setup.bash`.
+10. Finally, to launch the file, run `roslaunch rosbridge_server rosbridge_websocket.launch`.
 
 You can now get started looking through the code!
 
@@ -192,6 +196,7 @@ Our Flask server uses the port 5000.
    - In another terminal, run `roslaunch garry_ros turtlebot.launch` (make sure the ROS_HOSTNAME and ROS_MASTER_URI are correctly set in this terminal)
    - In another terminal, run `roslaunch garry_ros startup.launch` (make sure the ROS_HOSTNAME and ROS_MASTER_URI are correctly set in this terminal)
    - If you're still having trouble, please follow the launch commands in the launch files respectively and manually run those commands.
+8. Alternatively, you could 
 
 ### Flutter
 1. In VS Code, open the folder "GARRY-Flutter"
