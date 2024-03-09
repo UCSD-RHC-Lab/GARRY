@@ -29,19 +29,19 @@ We ask that you cite our paper if you use this repository - thanks!
       - [Python Flask Server](#python-flask-server)
       - [MATLAB](#matlab)
       - [Flutter](#flutter)
-      - [VS Code extensions](#vs-code-extensions)
-      - [ROS/Turtlebot](#rosturtlebot)
+      - [VS Code/extensions](#vs-codeextensions)
+      - [ROS/Turtlebot/Ubuntu](#rosturtlebotubuntu)
   - [Getting Started](#getting-started)
     - [Python Flask Server](#python-flask-server-1)
+    - [ROS/Turtlebot](#rosturtlebot)
     - [Flutter](#flutter-1)
-    - [ROS/Turtlebot](#rosturtlebot-1)
     - [MATLAB](#matlab-1)
   - [Usage](#usage)
-      - [Flutter](#flutter-2)
+      - [GARRY-Flutter](#garry-flutter)
         - [Application Structure Overview](#application-structure-overview)
         - [Main Page](#main-page)
         - [Sessions Page](#sessions-page)
-        - [Selection Page](#selection-page)
+        - [Feedback Selection Page](#feedback-selection-page)
         - [Sample Feedback Session](#sample-feedback-session)
         - [Summary Page](#summary-page)
       - [MATLAB](#matlab-2)
@@ -161,8 +161,14 @@ The following instructions are for the Turtlebot/robot that uses ROS, or a lapto
 1. Move our `GARRY-ROS` into the `src` subfolder in your catkin workspace (most commonly, this is known as `catkin_ws`).
 2. Run `cd ..` back to your root `catkin_ws` directory and run `catkin_make`.
 3. Next, run `source ~/catkin_ws/devel/setup.bash`.
-4. Run `echo $ROS_HOSTNAME` and ensure it's `localhost`. If not, write down the original value for backup and run `export ROS_HOSTNAME=localhost`. Then, run `echo $ROS_HOSTNAME` again to double check.
+4. Edit your bashrc file to set the environment variables permanently
+   1. For example you could run `sudo vim ~/.bashrc`, ensure the lines:
+      1. `export ROS_HOSTNAME=<your IP Address>` (use ifconfig to get new IP Address upon rebooting computer)
+      2. `export ROS_MASTER_URI=http://${ROS_HOSTNAME}:11311`
+      3. `source ~/catkin_ws/devel/setup.bash`
+   are all present and are uncommented.
 5. Run `echo $ROS_MASTER_URI` and ensure it's `http://localhost:11311`. If not, write down the original value for backup and run `export ROS_MASTER_URI=http://localhost:11311`. Then, run `echo $ROS_MASTER_URI` again to double check.
+6. Now when you create new tabs/windows, the environment variables should stay consistent (no need to re-do steps 2-4).
 
 You can now get started looking through the code!
 
@@ -177,7 +183,7 @@ Our Flask server uses the port 5000.
 ### ROS/Turtlebot
 1. Turn on your Turtlebot.
 2. On the laptop connected to the Turtlebot, open a terminal.
-3. Run `source ~/{your catkin workspace name}/devel/setup.bash`, replacing '{your catkin workspace name}' (it will most likely be `catkin_ws`).
+3. Run `source ~/<your catkin workspace name>/devel/setup.bash`, replacing '<your catkin workspace name>' (it will most likely be `catkin_ws`).
 4. Run `ifconfig` and take note of the IP address of the network the device is on.
 5. In another terminal, navigate to the `garry_ros` package folder by running `roscd garry_ros`. If it says not found, follow step 3 again and come back.
 6. Run `startup.py` to both bring up the Turtlebot and to get it set up with the GARRY system.
