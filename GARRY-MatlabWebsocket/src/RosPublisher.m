@@ -13,11 +13,19 @@ classdef RosPublisher < WebSocketClient
             obj.msgType = msgType;
         end
 
+        function advertise(obj)
+            % Advertise a topic to be established on ROS
+            msg = sprintf('{"op": "advertise", "topic": "%s", "type": "%s"}', obj.topic, obj.msgType);
+            obj.send(char(msg));
+            fprintf("Advertised?");
+        end
+
         function publish(obj, data)
             % This function publishes a message on the specified topic
             % (currently only supports UserData. If desired, can be modified
             % to support other message types).
-            [a2, goal] = data;
+            a2 = data(1);
+            goal = data(2);
             msg = sprintf('{"op": "publish", "topic": "%s", "msg": {"a2": %d, "goal": %d}}', obj.topic, a2, goal);
             obj.send(char(msg))
             fprintf('Sent message: %s\n', msg);
@@ -26,10 +34,6 @@ classdef RosPublisher < WebSocketClient
 
     methods (Access = protected)
         function onOpen(obj,message)
-            % Advertise a topic to be established on ROS
-            msg = sprintf('{"op": "advertise", "topic": "%s", "type": "%s"}', obj.topic, obj.msgType);
-            obj.send(char(msg));
-            fprintf("Advertised?");
         end
         
         function onTextMessage(obj,message)
