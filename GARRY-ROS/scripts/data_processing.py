@@ -57,7 +57,7 @@ if __name__ == "__main__":
     dpn = DataProcessor()
 
     # Subscribers and publishers
-    data_sub = rospy.Subscriber('/data', UserData, dpn.handle_data)
+    data_sub = rospy.Subscriber('/garry/data', UserData, dpn.handle_data)
     feedback_type_sub = rospy.Subscriber('/feedback_type', String, dpn.handle_feedback_type)
 
     rate = rospy.Rate(10) # set the publishing rate
