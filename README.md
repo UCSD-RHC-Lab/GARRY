@@ -140,8 +140,6 @@ For our MATLAB server, we utilized [jebej's MatlabWebSocket library](https://git
 5. In the command window, type in `javaclasspath` and verify that the path to your jar file is listed.
 6. At the top of MATLAB, go to Home -> Environment -> Set Path.
 7. Click on "Add Folder" and add the `src` subfolder under the "GARRY-MatlabWebsocket" folder. Then click "Save". If it asks you if you want to save it to another location, hit "Yes". Lastly, hit "Close".
-8. Run `server = GarryMatlabServer(4000)` and verify that there are no errors. If this does not work, restart MATLAB and try again.
-9. If you wish to stop the server at any point, type in `server.stop`. More commands can be found in jebej's GitHub repo as linked above.
 
 #### Flutter
 The folder "GARRY-Flutter" should be placed on the Windows computer/laptop.
@@ -199,11 +197,14 @@ Our Flask server uses the port 5000.
 3. On the bottom right of VS Code there will be text saying "Chrome(web-javascript)" or "Edge(web-javascript)". You can choose which device or platform you want to run it on.
 4. Open `main.dart` if you haven't already. Then, to run the app, do one of the following:
   * On the top right of VS Code, you should see a "play" button, with or without a bug: You can click on the dropdown menu and hit "Run without debugging."
+  * Another way is to go to `main.dart` in VS Code, find the `main` method, and above it should be a "Run" button alongside "Debug" and others. If you don't have this, it's likely that either:
+    1. You don't have the Flutter extension installed correctly. Be sure to restart VS Code.
+    2. You're not in a folder where you can access the root folder of the app `GARRY-Flutter`. You can do so by going to File -> Open Folder, and choose either GARRY-Flutter or any of its parent directories.
   * Alternatively, instead of using VS Code in step 4, you could also open up a terminal, navigate to `GARRY-Flutter/lib`, and enter `flutter run main.dart`.
-  * Another way is to 
 
 ### MATLAB
-1. In the command window, run `server = GarryMatlabServer(4000)`.
+1. In the command window, run `server = GarryMatlabServer(4000, <robot IP address>)`, replacing `<robot IP address>` with the robot's IP address (as a string).
+2. If you wish to stop the server at any point, type in `server.stop`. More commands can be found in jebej's GitHub repo as linked above.
   
 
 ## Usage 
