@@ -159,20 +159,6 @@ The following instructions are for the Turtlebot/robot that uses ROS, or a lapto
 1. Move our `GARRY-ROS` into the `src` subfolder in your catkin workspace (most commonly, this is known as `catkin_ws`).
 2. Run `cd ..` back to your root `catkin_ws` directory and run `catkin_make`.
 3. Next, run `source ~/catkin_ws/devel/setup.bash`.
-<<<<<<< HEAD
-4. Edit your bashrc file to set the environment variables permanently
-   1. For example you could run `sudo vim ~/.bashrc`, ensure the lines:
-      1. `export ROS_HOSTNAME=<your IP Address>` (use ifconfig to get new IP Address upon rebooting computer)
-      2. `export ROS_MASTER_URI=http://${ROS_HOSTNAME}:11311`
-      3. `source ~/catkin_ws/devel/setup.bash`
-   are all present and are uncommented.
-5. Run `echo $ROS_MASTER_URI` and ensure it's `http://localhost:11311`. If not, write down the original value for backup and run `export ROS_MASTER_URI=http://localhost:11311`. Then, run `echo $ROS_MASTER_URI` again to double check.
-6. Navigate to the sciprts folder then run `chmod +x` to make your python file (x) executable.
-7. Now when you create new tabs/windows, the environment variables should stay consistent (no need to re-do steps 2-4).
-8. Finally, to install Rosbridge, run `sudo apt-get install ros-<rosdistro>-rosbridge-server`.
-9. Next, run `source ~/catkin_ws/devel/setup.bash`.
-10. Finally, to launch the file, run `roslaunch rosbridge_server rosbridge_websocket.launch`.
-=======
 4. Edit your bashrc file to set the following environment variables permanently by ensuring the following lines are all present/uncommented. You can do this by running `sudo vim ~/.bashrc` for example. Note: It might be a good idea to back up the original values before you modify each of the following:
     1. `export ROS_HOSTNAME=<your IP Address>`
        * Replace `<your IP address>` with the IP address of the Turtlebot/robot laptop. `ipconfig` can help. Use `ifconfig` to get new IP Address upon rebooting computer.
@@ -181,7 +167,10 @@ The following instructions are for the Turtlebot/robot that uses ROS, or a lapto
     3. `source ~/catkin_ws/devel/setup.bash`
        * This will make sure all ROS packages, including `garry_ros`, can be found by the system.
 5. Now when you create new tabs/windows, the environment variables should stay consistent (no need to re-do steps 2-4).
->>>>>>> cf5003eee068fdf58a707d000493e6b1831cc2dd
+6. Navigate to the scripts folder then run `chmod +x` to make your python file (x) executable.
+7. Finally, to install Rosbridge, run `sudo apt-get install ros-<rosdistro>-rosbridge-server`.
+   1. Next, run `source ~/catkin_ws/devel/setup.bash`.
+   2. To launch the file, run `roslaunch rosbridge_server rosbridge_websocket.launch`.
 
 You can now get started looking through the code!
 
