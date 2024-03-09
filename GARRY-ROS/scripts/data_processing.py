@@ -24,7 +24,7 @@ class DataProcessor:
         return average_val
     
     def handle_data(self, data):
-        a2value, goal = data.a2, data goal
+        a2value, goal = data.a2, data.goal
         self.update_data(a2value)
         self.update_goal(goal)
 
