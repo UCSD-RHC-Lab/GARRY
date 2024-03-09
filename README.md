@@ -133,7 +133,7 @@ The folder "GARRY-Server" should be placed on the Windows computer/laptop.
 #### MATLAB
 For our MATLAB server, we utilized [jebej's MatlabWebSocket library](https://github.com/jebej/MatlabWebSocket). The folder "GARRY-MatlabWebsocket" should be placed on the Windows computer/laptop. Follow the below steps to set up.
 
-1. There is "jar" subfolder inside the "GARRY-MatlabWebsocket" folder. Locate "matlab-websocket-1.6.jar" inside the "jar" folder and save the path to that jar file.
+1. There is "jar" subfolder inside the "GARRY-MatlabWebsocket" folder. Locate "matlab-websocket-1.6.jar" inside the "jar" folder and save the pathway to that jar file.
 2. In the MATLAB command window, run `edit(fullfile(prefdir,'javaclasspath.txt'))`. If it tells you that the file does not exist and asks you if you want to create it, click "Yes".
 3. This should open up the code editor for `javaclasspath.txt`. In the text file, type in the path to the jar file you located in step 1 (pure path, without quotes or anything). For example, if your jar file path is `C:\MatlabWebSocket\jar\matlab-websocket-1.6.jar`, then write that in the text file.
 4. Save the file and restart MATLAB.
