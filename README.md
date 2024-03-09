@@ -183,7 +183,7 @@ Our Flask server uses the port 5000.
 ### ROS/Turtlebot
 1. Turn on your Turtlebot.
 2. On the laptop connected to the Turtlebot, open a terminal.
-3. Run `source ~/<your catkin workspace name>/devel/setup.bash`, replacing `<your catkin workspace name>` (it will most likely be `catkin_ws`).
+3. Run `source ~/<your catkin workspace name>/devel/setup.bash`, replacing `<your catkin workspace name>` with the appropriate title (it will most likely be `catkin_ws`).
 4. Run `ifconfig` and take note of the IP address of the network the device is on.
 5. In another terminal, navigate to the `garry_ros` package folder by running `roscd garry_ros`. If it says not found, follow step 3 again and come back.
 6. Run `startup.py` to both bring up the Turtlebot and to get it set up with the GARRY system.
